@@ -398,7 +398,28 @@ function init() {
     // console.log(greenGhost.target)
   }
  
-   
+  function scaredGhost(){
+    greenGhost.target = Math.floor(Math.random() * 100)
+    redGhost.target = Math.floor(Math.random() * 100)
+  }
+
+  function bigFruitEaten() {
+    clearInterval(toggleChaseMode)
+    const scared = setInterval(scaredGhost, 100)
+    scaredGhostState()
+
+    setTimeout(()=> {
+      clearInterval(scared)
+      greenGhost.state = 'normal'
+      redGhost.state = 'normal'
+      toggleChase(chase)
+      toggleChaseMode = setInterval(() => {
+        toggleChase(chase)
+      }, 5000)
+
+    }, 6000)
+  }
+
  
   const toggleChaseMode = setInterval(toggleChase, 5000)
 
