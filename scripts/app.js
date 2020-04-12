@@ -31,6 +31,18 @@ function init() {
 
   addCellWalls()
 
+  // ----- ADD FRUIT TO BOARD
+  function addFruitToGrid(){
+    fruitCells.forEach(fruit => {
+      cells[fruit].classList.add('fruit')
+    })
+    cells[85].classList.remove('fruit')
+  }
+ 
+  addFruitToGrid()
+
+
+
   // -------------------------------------------------------PACMAN OBJECT AND MOVEMENT -------------------------------------- //
 
   const pacman = {
