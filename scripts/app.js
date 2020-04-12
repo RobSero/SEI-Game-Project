@@ -61,6 +61,36 @@ function init() {
 
   // ------------------------------------------- VALIDATE KEY PRESS AND UPDATE PACMAN MOVE -------------------------------------- 
 
+  function validatePress(event){
+    let moveDirection
+    switch (event.keyCode){
+      case 38:
+        moveDirection = -10
+        break
+      case 40:
+        moveDirection = 10
+        break
+      case 39:
+        moveDirection = 1
+        break
+      case 37:
+        moveDirection = -1
+        break
+      default:
+        return
+    }
+  
+    if (wallCells.includes(pacman.divNo + moveDirection)){
+      return
+    } else {
+      if (moveDirection !== pacman.move){
+        pacman.move = moveDirection
+      }
+    }
+   
+  }
+  
+  window.addEventListener('keydown', validatePress)
 
 
 }
