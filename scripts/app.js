@@ -403,6 +403,15 @@ function init() {
     redGhost.target = Math.floor(Math.random() * 100)
   }
 
+  function eatenGhostPath() {
+    if (greenGhost.state === 'eaten'){
+      greenGhost.target = ghostHome
+    }
+    if (redGhost.state === 'eaten'){
+      redGhost.target = ghostHome
+    }
+  }
+
   function bigFruitEaten() {
     clearInterval(toggleChaseMode)
     const scared = setInterval(scaredGhost, 100)
