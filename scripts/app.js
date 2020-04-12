@@ -31,7 +31,32 @@ function init() {
 
   addCellWalls()
 
+  // -------------------------------------------------------PACMAN OBJECT AND MOVEMENT -------------------------------------- //
 
+  const pacman = {
+    divNo: 85,
+    move: 0
+  }
+
+
+
+  function movePacMan(){
+    cells[pacman.divNo].classList.remove('pacman')
+    //  CELLS[85]
+    const newDiv = pacman.divNo + pacman.move
+    //     86      =     85   +   1
+
+    if (!wallCells.includes(newDiv)){
+    //                     86
+      pacman.divNo += pacman.move
+      cells[pacman.divNo].classList.add('pacman')
+    // cells[86]
+    // console.log(pacman.divNo + ' no clash can move')
+    } else {
+      cells[pacman.divNo].classList.add('pacman')
+    // console.log(pacman.divNo + ' CLASHED')
+    }
+  }
 
 
 }
