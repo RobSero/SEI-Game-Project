@@ -119,6 +119,134 @@ function init() {
   }
   setInterval(eatFruit, 130)
 
+  // ------------------------------------------- GHOST OBJECT  -------------------------------------- 
+
+  const ghost = {
+    prevDivNo: 0,
+    divNo: 15,
+    move: 0,
+    target: 85
+  }
+
+  function moveGhost(){
+  
+    const upperDiv = ghost.divNo - 10
+    const lowerDiv = ghost.divNo + 10
+    const leftDiv = ghost.divNo - 1
+    const rightDiv = ghost.divNo + 1
+    let upperDistanceToTarget =  0
+    let lowerDistanceToTarget =  0
+    let leftDistanceToTarget =  0
+    let rightDistanceToTarget =  0
+    calculateSurroundingDistances()
+    findShortestRoute()
+
+    cells[ghost.divNo].classList.remove('greenGhost')
+    ghost.prevDivNo = ghost.divNo
+    ghost.divNo += ghost.move
+    cells[ghost.divNo].classList.add('greenGhost')
+
+
+    // ------- Calculating each cell around
+
+    function calculateSurroundingDistances() {
+      if (wallCells.includes(upperDiv) || cells[ghost.prevDivNo] === cells[upperDiv]){
+        upperDistanceToTarget = 100000 
+        console.log('upper= ' + upperDistanceToTarget)
+      } else {
+        upperDistanceToTarget = pythagorusTheory(ghost.target, upperDiv)
+        console.log('upper= ' + upperDistanceToTarget)
+      }
+
+      if (wallCells.includes(lowerDiv) || cells[ghost.prevDivNo] === cells[lowerDiv]){
+        lowerDistanceToTarget = 100000 
+        console.log('lower = ' + lowerDistanceToTarget)
+        
+      } else {
+        lowerDistanceToTarget = pythagorusTheory(ghost.target, lowerDiv)
+        // console.log(lowerDistanceToTarget)
+      }
+
+      if (wallCells.includes(leftDiv) || cells[ghost.prevDivNo] === cells[leftDiv]){
+        leftDistanceToTarget = 100000 
+      } else {
+        leftDistanceToTarget = pythagorusTheory(ghost.target, leftDiv)
+        console.log('left= ' + leftDistanceToTarget)
+      }
+
+      if (wallCells.includes(rightDiv) || cells[ghost.prevDivNo] === cells[rightDiv]){
+        rightDistanceToTarget = 100000 
+      } else {
+        rightDistanceToTarget = pythagorusTheory(ghost.target, rightDiv)
+        console.log('right= ' + rightDistanceToTarget)
+      }
+    }
+    
+
+    // ------------- PYTHAGORAS --------------------
+
+    function pythagorusTheory(target, possibleDiv) {
+      const a = cells[target].offsetLeft - cells[possibleDiv].offsetLeft
+      const b = cells[target].offsetTop - cells[possibleDiv].offsetTop
+      const distance = Math.sqrt((a * a) + (b * b))
+      return distance
+    }
+
+    // ----- Choosing the shortest route
+
+    function findShortestRoute() {
+      if (
+        upperDistanceToTarget < lowerDistanceToTarget && 
+      upperDistanceToTarget < leftDistanceToTarget && 
+      upperDistanceToTarget < rightDistanceToTarget) {
+        ghost.move = -10
+        return
+      }
+
+      if (
+        lowerDistanceToTarget < rightDistanceToTarget && 
+      lowerDistanceToTarget < leftDistanceToTarget && 
+      lowerDistanceToTarget < upperDistanceToTarget) {
+        ghost.move = 10
+        return
+      } 
+
+      if (
+        rightDistanceToTarget < lowerDistanceToTarget && 
+      rightDistanceToTarget < leftDistanceToTarget && 
+      rightDistanceToTarget < upperDistanceToTarget) {
+        ghost.move = 1
+        return
+      } 
+
+      if (
+        leftDistanceToTarget < lowerDistanceToTarget && 
+      leftDistanceToTarget < rightDistanceToTarget && 
+      leftDistanceToTarget < upperDistanceToTarget) {
+        ghost.move = -1
+        return
+      } 
+
+      if (upperDistanceToTarget !== 100000){
+        ghost.move = -10
+        return
+      } else if (rightDistanceToTarget !== 100000){
+        ghost.move = 1
+        return
+      } else if (lowerDistanceToTarget !== 100000){
+        ghost.move = 10
+        return
+      } else {
+        ghost.move = -1
+        return
+      }
+
+    }
+
+  }
+
+  setInterval(moveGhost, 200)
+
 }
 
 window.addEventListener('DOMContentLoaded', init)
