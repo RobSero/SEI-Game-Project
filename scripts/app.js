@@ -213,6 +213,33 @@ function init() {
   }
   setInterval(eatFruit, 130)
 
+
+  // ------------------------------------------- PACMAN EATS BIG FRUIT -------------------------------------- 
+
+  function eatBigFruit(){
+
+    if (cells[pacman.divNo].classList.contains('bigFruit')){
+      score += 500
+      cells[pacman.divNo].classList.remove('bigFruit')
+      scoreDisplay.innerHTML = score
+      bigFruitEaten()
+    } else {
+      cells[pacman.divNo].classList.remove('bigFruit')
+    }
+  }
+
+  function scaredGhostState(){
+    greenGhost.state = 'scared'
+    redGhost.state = 'scared'
+    console.log('ghosts are scared!')
+    
+  }
+
+
+  // Ghost movement
+
+
+
   function moveGhost(ghost){
   
     ghost.upperDiv = ghost.positionDivNo - 10
