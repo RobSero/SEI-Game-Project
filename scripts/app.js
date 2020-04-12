@@ -423,6 +423,46 @@ function init() {
  
   const toggleChaseMode = setInterval(toggleChase, 5000)
 
+  // ------------------------------------------- CHECK IF GHOSTS ARE EATEN -------------------------------------- 
+
+  const eatenCheck = setInterval(checkIfEaten,100)
+
+  function checkIfEaten(){
+    
+    if (pacman.divNo === greenGhost.positionDivNo && greenGhost.state === 'scared'){
+      console.log('GREEN EATEN')
+      score += 500
+      greenGhost.state = 'eaten'
+    }
+  }
+
+
+  // const greenEaten = setInterval(() => {
+  //   if (greenGhost.positionDivNo !== 81 && greenGhost.state === 'eaten') {
+  //     greenGhost.target = 81
+  //     greenGhost.state = 'eaten'
+  //     console.log('run to 81!')
+      
+  //   } else if (greenGhost.positionDivNo === 81 && greenGhost.state === 'eaten')  {
+  //     const stayInSpot = setInterval(() => {
+  //       greenGhost.move = 0
+  //       greenGhost.positionDivNo = 81
+  //     },15)
+
+  //     setTimeout(()=>{
+  //       clearInterval(stayInSpot)
+  //       console.log('GREEN BACK TO NORMAL')
+        
+  //       greenGhost.state = 'normal'
+  //       greenGhost.target = 19
+  //     },4000)
+  //   }
+  // }, 50)
+
+
+
+
+
   // ------------------------------------------- WIN CONDITION -------------------------------------- 
 
 
