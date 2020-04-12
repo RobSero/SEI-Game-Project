@@ -1,11 +1,31 @@
 function init() {
- 
+
+
+  // ------------------------------------------------------- GLOBAL VARIABLES  -------------------------------------- //
+
+
+
+  let playing = false
   const width = 10
   const cellCount = width * width
   const cells = []
   const wallCells = [0,1,2,3,4,5,6,7,8,9,10,19,20,22,23,24,26,27,29,30,32,33,34,36,37,39,40,49,50,52,53,54,55,56,57,59,60,62,63,64,65,66,67,69,70,72,73,74,75,76,77,79,80,89,90,91,92,93,94,95,96,97,98,99]
-  const scoreDisplay = document.getElementById('score-display')
- 
+  const fruitCells = [11,12,13,14,15,16,17,21,25,28,31,35,38,41,42,43,44,45,46,47,48,51,58,61,68,71,78,82,83,84,85,86,87,88]
+  const bigFruitCells = [18, 81]
+  let score = 0
+  let chase = true
+  let toggleChaseMode
+  let scattering 
+  let chasing
+  let greenEaten
+  const ghostHome = 81
+  
+  // const styleSheet = document.getElementById('stylesheet').sheet
+
+  // styleSheet.insertRule('body {background-color: yellow}')
+  // styleSheet.deleteRule('.greenGhost { background-image: url(/assets/greenGhost.png)}')
+  // styleSheet.insertRule('.greenGhost { background-image: url(/assets/yellowGhost.png)}')
+
 
   // ------------------------------------------------------- ELEMENTS  -------------------------------------- //
 
@@ -14,43 +34,84 @@ function init() {
   const startButton = document.getElementById('start')
   const scoreDisplay = document.getElementById('score-display')
   const body = document.body
+  
+  // ------------------------------------------------------- START GAME  -------------------------------------- //
 
 
-    // ------------------------------------------------------- START GAME  -------------------------------------- //
 
+  function startGame() {
 
-
-    function startGame() {
-
-      if (!playing){
-        //build board
-        playing = true
-        buildBoard()
-        //begin pacman movement
-        setInterval(movePacMan, 130)
-        setInterval(eatFruit, 130)
-        setInterval(eatBigFruit, 130)
-        setInterval(checkForWin, 130)
-        //begin ghost movement
-        setInterval(()=> {
-          moveGhost(greenGhost)
-        }, 400)
-    
-        setInterval(()=> {
-          moveGhost(redGhost)
-        }, 400)
-      }
-      //toggle between chase and scatter modes
-      
-      toggleChaseMode = setInterval(() => {
-        toggleChase(chase)
-      }, 5000)
-      //setInterval(checkForLose, 150)
+    if (!playing){
+      //build board
+      playing = true
+      buildBoard()
+      //begin pacman movement
+      setInterval(movePacMan, 130)
+      setInterval(eatFruit, 130)
+      setInterval(eatBigFruit, 130)
+      setInterval(checkForWin, 130)
+      //begin ghost movement
+      setInterval(()=> {
+        moveGhost(greenGhost)
+      }, 100)
+  
+      setInterval(()=> {
+        moveGhost(redGhost)
+      }, 100)
     }
+    //toggle between chase and scatter modes
+    toggleChase(chase)
+    toggleChaseMode = setInterval(() => {
+      toggleChase(chase)
+    }, 5000)
+    //setInterval(checkForLose, 150)
+  }
 
-   // -------------------------------------------------------CREATE BOARD -------------------------------------- //
+  // -------------------------------------------------------BUILD CHARACTER OBJECTS  -------------------------------------- //
 
-   function buildBoard() {
+
+  const pacman = {
+    divNo: 85,
+    move: 0
+  }
+  
+  const greenGhost = {
+    name: 'greenGhost',
+    prevDivNo: 0,
+    positionDivNo: 15,
+    move: 0,
+    target: 85,
+    state: 'normal',
+    upperDiv: 0,
+    lowerDiv: 0,
+    leftDiv: 0,
+    rightDiv: 0,
+    upperDistanceToTarget: 0,
+    lowerDistanceToTarget: 0,
+    leftDistanceToTarget: 0,
+    rightDistanceToTarget: 0
+  }
+
+  const redGhost = {
+    name: 'redGhost',
+    prevDivNo: 0,
+    positionDivNo: 81,
+    move: 0,
+    target: 11,
+    state: 'normal',
+    upperDiv: 0,
+    lowerDiv: 0,
+    leftDiv: 0,
+    rightDiv: 0,
+    upperDistanceToTarget: 0,
+    lowerDistanceToTarget: 0,
+    leftDistanceToTarget: 0,
+    rightDistanceToTarget: 0
+  }
+
+  // -------------------------------------------------------CREATE BOARD -------------------------------------- //
+
+  function buildBoard() {
 
     function createCells(){
       for (let i = 0; i < cellCount; i++){
@@ -95,55 +156,8 @@ function init() {
 
 
   }
-
-
-
-  // -------------------------------------------------------BUILD CHARACTER OBJECTS  -------------------------------------- //
-
-
-  const pacman = {
-    divNo: 85,
-    move: 0
-  }
   
-
-  const greenGhost = {
-    name: 'greenGhost',
-    prevDivNo: 0,
-    positionDivNo: 15,
-    move: 0,
-    target: 85,
-    upperDiv: 0,
-    lowerDiv: 0,
-    leftDiv: 0,
-    rightDiv: 0,
-    upperDistanceToTarget: 0,
-    lowerDistanceToTarget: 0,
-    leftDistanceToTarget: 0,
-    rightDistanceToTarget: 0
-  }
-
-  const redGhost = {
-    name: 'redGhost',
-    prevDivNo: 0,
-    positionDivNo: 81,
-    move: 0,
-    target: 11,
-    upperDiv: 0,
-    lowerDiv: 0,
-    leftDiv: 0,
-    rightDiv: 0,
-    upperDistanceToTarget: 0,
-    lowerDistanceToTarget: 0,
-    leftDistanceToTarget: 0,
-    rightDistanceToTarget: 0
-  }
-
-
   // -------------------------------------------------------PACMAN OBJECT AND MOVEMENT -------------------------------------- //
-
-  
-
 
   function movePacMan(){
     cells[pacman.divNo].classList.remove('pacman')
@@ -162,8 +176,6 @@ function init() {
       // console.log(pacman.divNo + ' CLASHED')
     }
   }
-
-
 
   // ------------------------------------------- VALIDATE KEY PRESS AND UPDATE PACMAN MOVE -------------------------------------- 
 
@@ -185,7 +197,7 @@ function init() {
       default:
         return
     }
-  
+
     if (wallCells.includes(pacman.divNo + moveDirection)){
       return
     } else {
@@ -193,13 +205,10 @@ function init() {
         pacman.move = moveDirection
       }
     }
-   
   }
-  
-  window.addEventListener('keydown', validatePress)
 
 
-  // ------------------------------------------- PACMAN EATS FRUIT -------------------------------------- 
+  // ------------------------------------------- PACMAN EATS NORMAL FRUIT -------------------------------------- 
 
   function eatFruit(){
 
@@ -211,8 +220,6 @@ function init() {
       cells[pacman.divNo].classList.remove('fruit')
     }
   }
-  setInterval(eatFruit, 130)
-
 
   // ------------------------------------------- PACMAN EATS BIG FRUIT -------------------------------------- 
 
@@ -229,35 +236,57 @@ function init() {
   }
 
   function scaredGhostState(){
+  
     greenGhost.state = 'scared'
     redGhost.state = 'scared'
-    console.log('ghosts are scared!')
+    console.log(`GreenGhost State: ${greenGhost.state}`)
     
   }
 
 
-  // Ghost movement
-
-
+  // ------------------------------------------- MOVE GHOST  -------------------------------------- 
 
   function moveGhost(ghost){
-  
+    if (ghost.positionDivNo === ghostHome && ghost.state === 'eaten'){
+      homeTimer(ghost)
+      ghost.state = 'waiting'
+      return
+    }
+    if (ghost.state === 'waiting'){
+      return
+    }
     ghost.upperDiv = ghost.positionDivNo - 10
     ghost.lowerDiv = ghost.positionDivNo + 10
     ghost.leftDiv = ghost.positionDivNo - 1
     ghost.rightDiv = ghost.positionDivNo + 1
     calculateSurroundingDistances(ghost)
     findShortestRoute(ghost)
+    
+    
     cells[ghost.positionDivNo].classList.remove(ghost.name)
+    cells[ghost.positionDivNo].classList.remove('scaredGhost')
+    cells[ghost.positionDivNo].classList.remove('eatenGhost')
     ghost.prevDivNo = ghost.positionDivNo
     ghost.positionDivNo += ghost.move
-    cells[ghost.positionDivNo].classList.add(ghost.name)
+    cells[ghost.positionDivNo].classList.add( ghostIcon(ghost))
 
+
+    function ghostIcon(ghost) {
+      if (ghost.state === 'scared'){
+        return 'scaredGhost'
+      } else if (ghost.state === 'eaten') {
+        console.log('yummy')
+        
+        return 'eatenGhost'
+      } else {
+        return ghost.name
+      }
+    }
 
     // ------- Calculating each cell around
 
     function calculateSurroundingDistances(ghost) {
-      console.log(ghost)
+      // console.log(ghost)
       
       if (wallCells.includes(ghost.upperDiv) || cells[ghost.prevDivNo] === cells[ghost.upperDiv]){
         ghost.upperDistanceToTarget = 100000 
@@ -310,6 +339,8 @@ function init() {
       ghost.upperDistanceToTarget < ghost.rightDistanceToTarget) {
         ghost.move = -10
         return
+        
+        
       }
 
       if (
@@ -354,53 +385,50 @@ function init() {
 
   }
   
-  
-
-
-  setInterval(()=> {
-    moveGhost(greenGhost)
-  }, 200)
-
-  setInterval(()=> {
-    moveGhost(redGhost)
-  }, 350)
-
   // ------------------------------------------- GHOST TARGETTING LOGIC -------------------------------------- 
 
-  let chase = false
-  let scattering = setInterval(scatterGhost, 150)
-  let chasing = 0
- 
- 
-  function toggleChase(){
-    if (chase){
+  
+  function toggleChase(isChasing){
+   
+    if (isChasing){
       clearInterval(chasing)
       chase = false
-      scattering = setInterval(scatterGhost, 150)
+      scattering = setInterval(scatterGhostPath, 150)
       body.style.backgroundColor = 'green'
     } else {
       clearInterval(scattering)
       chase = true
-      chasing = setInterval(ghostChase, 500)
+      chasing = setInterval(ghostChasePath, 500)
       body.style.backgroundColor = 'pink'
     }
   }
- 
-  function ghostChase() {
-    greenGhost.target = pacman.divNo
-    // console.log(greenGhost.target)
-    redGhost.target = greenGhost.target - 11
-  }
- 
-  function scatterGhost(){
-    greenGhost.target = 19
-    redGhost.target = 11
+
+  function ghostChasePath() {
+    if (greenGhost.state === 'normal'){
+      greenGhost.target = pacman.divNo
+    }
+    if (redGhost.state === 'normal'){
+      redGhost.target = greenGhost.target - 11
+    }
     // console.log(greenGhost.target)
   }
- 
-  function scaredGhost(){
-    greenGhost.target = Math.floor(Math.random() * 100)
-    redGhost.target = Math.floor(Math.random() * 100)
+
+  function scatterGhostPath(){
+    if (greenGhost.state === 'normal'){
+      greenGhost.target = 19
+    }
+    if (redGhost.state === 'normal'){
+      redGhost.target = 11
+    }
+    
+    // console.log(greenGhost.target)
+  }
+
+  function scaredGhostPath(){
+    if (greenGhost.state === 'scared') {
+      greenGhost.target = Math.floor(Math.random() * 100)
+      redGhost.target = Math.floor(Math.random() * 100)
+    }
   }
 
   function eatenGhostPath() {
@@ -412,71 +440,63 @@ function init() {
     }
   }
 
+
   function bigFruitEaten() {
-    clearInterval(toggleChaseMode)
-    const scared = setInterval(scaredGhost, 100)
+    setInterval(eatenGhostPath, 150)
     scaredGhostState()
-
+    setInterval(scaredGhostPath, 150)
     setTimeout(()=> {
-      clearInterval(scared)
-      greenGhost.state = 'normal'
-      redGhost.state = 'normal'
+      if (greenGhost.state === 'scared'){
+        greenGhost.state = 'normal'
+      }
+      if (redGhost.state === 'scared') {
+        redGhost.state = 'normal'
+      }
+      console.log(`GreenGhost State: ${greenGhost.state}`)
       toggleChase(chase)
-      toggleChaseMode = setInterval(() => {
-        toggleChase(chase)
-      }, 5000)
-
     }, 6000)
   }
 
- 
-  const toggleChaseMode = setInterval(toggleChase, 5000)
 
   // ------------------------------------------- CHECK IF GHOSTS ARE EATEN -------------------------------------- 
 
-  const eatenCheck = setInterval(checkIfEaten,100)
-
-  function checkIfEaten(){
-    
-    if (pacman.divNo === greenGhost.positionDivNo && greenGhost.state === 'scared'){
-      console.log('GREEN EATEN')
+  
+  function checkIfEaten(ghost){
+    if (pacman.divNo === ghost.positionDivNo && ghost.state === 'scared'){
       score += 500
-      greenGhost.state = 'eaten'
+      ghost.state = 'eaten'
+      console.log(`${ghost.name} State: ${ghost.state}`)
     }
   }
 
+  const eatenCheck = setInterval(() => {
+    checkIfEaten(greenGhost)
+    checkIfEaten(redGhost)
+  },10)
 
-  // const greenEaten = setInterval(() => {
-  //   if (greenGhost.positionDivNo !== 81 && greenGhost.state === 'eaten') {
-  //     greenGhost.target = 81
-  //     greenGhost.state = 'eaten'
-  //     console.log('run to 81!')
+  function homeTimer(ghost){
+    setTimeout(()=> {
+      ghost.state = 'normal'
+      console.log(`${ghost.name} back to normal wooo`)
       
-  //   } else if (greenGhost.positionDivNo === 81 && greenGhost.state === 'eaten')  {
-  //     const stayInSpot = setInterval(() => {
-  //       greenGhost.move = 0
-  //       greenGhost.positionDivNo = 81
-  //     },15)
+    }, 4000)
+  }
+  
+   
 
-  //     setTimeout(()=>{
-  //       clearInterval(stayInSpot)
-  //       console.log('GREEN BACK TO NORMAL')
-        
-  //       greenGhost.state = 'normal'
-  //       greenGhost.target = 19
-  //     },4000)
-  //   }
-  // }, 50)
+  // ------------------------------------------- WIN / LOSE CONDITION -------------------------------------- 
 
 
-
-
-
-  // ------------------------------------------- WIN CONDITION -------------------------------------- 
-
+  function checkForWin() {
+    if (cells.every(cell => {
+      return !(cell.classList.contains('fruit'))
+    })) {
+      alert('you win!')
+    } 
+  }
 
   function checkForLose() {
-    if (pacman.divNo === ghost.divNo) {
+    if (pacman.divNo === greenGhost.positionDivNo) {
       clearInterval(toggleChaseMode)
       clearInterval(scattering)
       clearInterval(chasing)
@@ -487,12 +507,16 @@ function init() {
     }
   }
 
-  //setInterval(checkForLose, 150)
+  // ------------------------------------------- EVENTS  -------------------------------------- 
 
-
-
-
-
+  startButton.addEventListener('click', () => {
+    if (!playing) {
+      startGame()
+      window.addEventListener('keydown', validatePress)
+    }
+  })
+  
 }
+
 
 window.addEventListener('DOMContentLoaded', init)
