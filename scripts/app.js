@@ -48,40 +48,53 @@ function init() {
       //setInterval(checkForLose, 150)
     }
 
-  // -------------------------------------------------------CREATE BOARD -------------------------------------- //
+   // -------------------------------------------------------CREATE BOARD -------------------------------------- //
 
-  function createCells(){
-    for (let i = 0; i < cellCount; i++){
-      const cell = document.createElement('div')
-      cell.setAttribute('id', i)
-      cell.textContent = i
-      grid.appendChild(cell)
-      cells.push(cell)
+   function buildBoard() {
+
+    function createCells(){
+      for (let i = 0; i < cellCount; i++){
+        const cell = document.createElement('div')
+        cell.setAttribute('id', i)
+        cell.textContent = i
+        grid.appendChild(cell)
+        cells.push(cell)
+      }
     }
+
+    // ----- ADD BUILD WALLS ON GRID
+    function addCellWalls(){
+      wallCells.forEach(item => {
+        cells[item].classList.add('blueStuff')
+      })
+    }
+
+    // ----- ADD FRUIT TO BOARD
+    function addFruitToGrid(){
+      fruitCells.forEach(fruit => {
+        cells[fruit].classList.add('fruit')
+      })
+      cells[85].classList.remove('fruit')
+    }
+    
+
+    // ----- ADD BIG FRUIT TO GRID
+    function addBigFruitToGrid() {
+      bigFruitCells.forEach(bigFruit => {
+        cells[bigFruit].classList.add('bigFruit')
+      })
+    }
+
+
+
+
+    createCells()
+    addCellWalls()
+    addFruitToGrid()
+    addBigFruitToGrid()
+
+
   }
-
-  createCells()
-
-  function addCellWalls(){
-    wallCells.forEach(item => {
-      cells[item].classList.add('blueStuff')
-    })
-  }
-
-  addCellWalls()
-
-  // ----- ADD FRUIT TO BOARD
-  function addFruitToGrid(){
-    fruitCells.forEach(fruit => {
-      cells[fruit].classList.add('fruit')
-    })
-    cells[85].classList.remove('fruit')
-  }
- 
-  addFruitToGrid()
-
-
-
 
 
 
