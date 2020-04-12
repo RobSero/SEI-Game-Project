@@ -247,6 +247,44 @@ function init() {
 
   setInterval(moveGhost, 200)
 
+  // ------------------------------------------- GHOST TARGETTING LOGIC -------------------------------------- 
+
+  let chase = false
+  let scattering = setInterval(scatterGhost, 150)
+  let chasing = 0
+
+  function ghostChase() {
+    ghost.target = pacman.divNo
+    console.log(ghost.target)
+  }
+
+  function scatterGhost(){
+    ghost.target = 19
+    console.log(ghost.target)
+  }
+
+  function toggleChase(){
+    if (chase){
+      clearInterval(chasing)
+      chase = false
+      scattering = setInterval(scatterGhost, 150)
+      body.style.backgroundColor = 'green'
+    } else {
+      clearInterval(scattering)
+      chase = true
+      chasing = setInterval(ghostChase, 500)
+      body.style.backgroundColor = 'pink'
+    }
+  }
+
+  setInterval(toggleChase, 5000)
+
+
+
+
+
+
+
 }
 
 window.addEventListener('DOMContentLoaded', init)
