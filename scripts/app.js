@@ -57,6 +57,10 @@ function init() {
     // console.log(pacman.divNo + ' CLASHED')
     }
   }
+  setInterval(movePacMan, 130)
+
+  // ------------------------------------------- VALIDATE KEY PRESS AND UPDATE PACMAN MOVE -------------------------------------- 
+
 
 
 }
