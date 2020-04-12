@@ -291,17 +291,8 @@ function init() {
   let chase = false
   let scattering = setInterval(scatterGhost, 150)
   let chasing = 0
-
-  function ghostChase() {
-    ghost.target = pacman.divNo
-    console.log(ghost.target)
-  }
-
-  function scatterGhost(){
-    ghost.target = 19
-    console.log(ghost.target)
-  }
-
+ 
+ 
   function toggleChase(){
     if (chase){
       clearInterval(chasing)
@@ -315,8 +306,22 @@ function init() {
       body.style.backgroundColor = 'pink'
     }
   }
-
-  setInterval(toggleChase, 5000)
+ 
+  function ghostChase() {
+    greenGhost.target = pacman.divNo
+    // console.log(greenGhost.target)
+    redGhost.target = greenGhost.target - 11
+  }
+ 
+  function scatterGhost(){
+    greenGhost.target = 19
+    redGhost.target = 11
+    // console.log(greenGhost.target)
+  }
+ 
+   
+ 
+  const toggleChaseMode = setInterval(toggleChase, 5000)
 
   // ------------------------------------------- WIN CONDITION -------------------------------------- 
 
