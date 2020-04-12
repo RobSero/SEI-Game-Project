@@ -279,7 +279,22 @@ function init() {
 
   setInterval(toggleChase, 5000)
 
+  // ------------------------------------------- WIN CONDITION -------------------------------------- 
 
+
+  function checkForLose() {
+    if (pacman.divNo === ghost.divNo) {
+      clearInterval(toggleChaseMode)
+      clearInterval(scattering)
+      clearInterval(chasing)
+      clearInterval(moveGhost)
+      clearInterval(movePacMan)
+      alert('you lose')
+      
+    }
+  }
+
+  //setInterval(checkForLose, 150)
 
 
 
