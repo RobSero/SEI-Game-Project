@@ -43,11 +43,28 @@ function init() {
 
 
 
-  // -------------------------------------------------------PACMAN OBJECT AND MOVEMENT -------------------------------------- //
+  // -------------------------------------------------------BUILD CHARACTER OBJECTS  -------------------------------------- //
+
 
   const pacman = {
     divNo: 85,
     move: 0
+  }
+  
+
+  const greenGhost = {
+    name: 'greenGhost',
+    prevDivNo: 0,
+    divNo: 15,
+    move: 0,
+    target: 85
+  }
+
+  const redGhost = {
+    prevDivNo: 0,
+    divNo: 45,
+    move: 0,
+    target: 11
   }
 
 
