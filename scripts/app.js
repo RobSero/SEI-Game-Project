@@ -105,6 +105,20 @@ function init() {
   window.addEventListener('keydown', validatePress)
 
 
+  // ------------------------------------------- PACMAN EATS FRUIT -------------------------------------- 
+
+  function eatFruit(){
+
+    if (cells[pacman.divNo].classList.contains('fruit')){
+      score += 100
+      cells[pacman.divNo].classList.remove('fruit')
+      scoreDisplay.innerHTML = score
+    } else {
+      cells[pacman.divNo].classList.remove('fruit')
+    }
+  }
+  setInterval(eatFruit, 130)
+
 }
 
 window.addEventListener('DOMContentLoaded', init)
