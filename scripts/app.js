@@ -43,6 +43,9 @@ function init() {
 
 
 
+
+
+
   // -------------------------------------------------------BUILD CHARACTER OBJECTS  -------------------------------------- //
 
 
@@ -55,16 +58,33 @@ function init() {
   const greenGhost = {
     name: 'greenGhost',
     prevDivNo: 0,
-    divNo: 15,
+    positionDivNo: 15,
     move: 0,
-    target: 85
+    target: 85,
+    upperDiv: 0,
+    lowerDiv: 0,
+    leftDiv: 0,
+    rightDiv: 0,
+    upperDistanceToTarget: 0,
+    lowerDistanceToTarget: 0,
+    leftDistanceToTarget: 0,
+    rightDistanceToTarget: 0
   }
 
   const redGhost = {
+    name: 'redGhost',
     prevDivNo: 0,
-    divNo: 45,
+    positionDivNo: 81,
     move: 0,
-    target: 11
+    target: 11,
+    upperDiv: 0,
+    lowerDiv: 0,
+    leftDiv: 0,
+    rightDiv: 0,
+    upperDistanceToTarget: 0,
+    lowerDistanceToTarget: 0,
+    leftDistanceToTarget: 0,
+    rightDistanceToTarget: 0
   }
 
 
@@ -141,66 +161,54 @@ function init() {
   }
   setInterval(eatFruit, 130)
 
-  // ------------------------------------------- GHOST OBJECT  -------------------------------------- 
-
-  const ghost = {
-    prevDivNo: 0,
-    divNo: 15,
-    move: 0,
-    target: 85
-  }
-
-  function moveGhost(){
+  function moveGhost(ghost){
   
-    const upperDiv = ghost.divNo - 10
-    const lowerDiv = ghost.divNo + 10
-    const leftDiv = ghost.divNo - 1
-    const rightDiv = ghost.divNo + 1
-    let upperDistanceToTarget =  0
-    let lowerDistanceToTarget =  0
-    let leftDistanceToTarget =  0
-    let rightDistanceToTarget =  0
-    calculateSurroundingDistances()
-    findShortestRoute()
-
-    cells[ghost.divNo].classList.remove('greenGhost')
-    ghost.prevDivNo = ghost.divNo
-    ghost.divNo += ghost.move
-    cells[ghost.divNo].classList.add('greenGhost')
+    ghost.upperDiv = ghost.positionDivNo - 10
+    ghost.lowerDiv = ghost.positionDivNo + 10
+    ghost.leftDiv = ghost.positionDivNo - 1
+    ghost.rightDiv = ghost.positionDivNo + 1
+    calculateSurroundingDistances(ghost)
+    findShortestRoute(ghost)
+    cells[ghost.positionDivNo].classList.remove(ghost.name)
+    ghost.prevDivNo = ghost.positionDivNo
+    ghost.positionDivNo += ghost.move
+    cells[ghost.positionDivNo].classList.add(ghost.name)
 
 
     // ------- Calculating each cell around
 
-    function calculateSurroundingDistances() {
-      if (wallCells.includes(upperDiv) || cells[ghost.prevDivNo] === cells[upperDiv]){
-        upperDistanceToTarget = 100000 
-        console.log('upper= ' + upperDistanceToTarget)
+    function calculateSurroundingDistances(ghost) {
+      console.log(ghost)
+      
+      if (wallCells.includes(ghost.upperDiv) || cells[ghost.prevDivNo] === cells[ghost.upperDiv]){
+        ghost.upperDistanceToTarget = 100000 
+        // console.log('upper= ' + ghost.upperDistanceToTarget)
       } else {
-        upperDistanceToTarget = pythagorusTheory(ghost.target, upperDiv)
-        console.log('upper= ' + upperDistanceToTarget)
+        ghost.upperDistanceToTarget = pythagorusTheory(ghost.target, ghost.upperDiv)
+        // console.log('upper= ' + ghost.upperDistanceToTarget)
       }
 
-      if (wallCells.includes(lowerDiv) || cells[ghost.prevDivNo] === cells[lowerDiv]){
-        lowerDistanceToTarget = 100000 
-        console.log('lower = ' + lowerDistanceToTarget)
+      if (wallCells.includes(ghost.lowerDiv) || cells[ghost.prevDivNo] === cells[ghost.lowerDiv]){
+        ghost.lowerDistanceToTarget = 100000 
+        // console.log('lower = ' + ghost.lowerDistanceToTarget)
         
       } else {
-        lowerDistanceToTarget = pythagorusTheory(ghost.target, lowerDiv)
+        ghost.lowerDistanceToTarget = pythagorusTheory(ghost.target, ghost.lowerDiv)
         // console.log(lowerDistanceToTarget)
       }
 
-      if (wallCells.includes(leftDiv) || cells[ghost.prevDivNo] === cells[leftDiv]){
-        leftDistanceToTarget = 100000 
+      if (wallCells.includes(ghost.leftDiv) || cells[ghost.prevDivNo] === cells[ghost.leftDiv]){
+        ghost.leftDistanceToTarget = 100000 
       } else {
-        leftDistanceToTarget = pythagorusTheory(ghost.target, leftDiv)
-        console.log('left= ' + leftDistanceToTarget)
+        ghost.leftDistanceToTarget = pythagorusTheory(ghost.target, ghost.leftDiv)
+        // console.log('left= ' + ghost.leftDistanceToTarget)
       }
 
-      if (wallCells.includes(rightDiv) || cells[ghost.prevDivNo] === cells[rightDiv]){
-        rightDistanceToTarget = 100000 
+      if (wallCells.includes(ghost.rightDiv) || cells[ghost.prevDivNo] === cells[ghost.rightDiv]){
+        ghost.rightDistanceToTarget = 100000 
       } else {
-        rightDistanceToTarget = pythagorusTheory(ghost.target, rightDiv)
-        console.log('right= ' + rightDistanceToTarget)
+        ghost.rightDistanceToTarget = pythagorusTheory(ghost.target, ghost.rightDiv)
+        // console.log('right= ' + ghost.rightDistanceToTarget)
       }
     }
     
@@ -216,46 +224,46 @@ function init() {
 
     // ----- Choosing the shortest route
 
-    function findShortestRoute() {
+    function findShortestRoute(ghost) {
       if (
-        upperDistanceToTarget < lowerDistanceToTarget && 
-      upperDistanceToTarget < leftDistanceToTarget && 
-      upperDistanceToTarget < rightDistanceToTarget) {
+        ghost.upperDistanceToTarget < ghost.lowerDistanceToTarget && 
+      ghost.upperDistanceToTarget < ghost.leftDistanceToTarget && 
+      ghost.upperDistanceToTarget < ghost.rightDistanceToTarget) {
         ghost.move = -10
         return
       }
 
       if (
-        lowerDistanceToTarget < rightDistanceToTarget && 
-      lowerDistanceToTarget < leftDistanceToTarget && 
-      lowerDistanceToTarget < upperDistanceToTarget) {
+        ghost.lowerDistanceToTarget < ghost.rightDistanceToTarget && 
+      ghost.lowerDistanceToTarget < ghost.leftDistanceToTarget && 
+      ghost.lowerDistanceToTarget < ghost.upperDistanceToTarget) {
         ghost.move = 10
         return
       } 
 
       if (
-        rightDistanceToTarget < lowerDistanceToTarget && 
-      rightDistanceToTarget < leftDistanceToTarget && 
-      rightDistanceToTarget < upperDistanceToTarget) {
+        ghost.rightDistanceToTarget < ghost.lowerDistanceToTarget && 
+      ghost.rightDistanceToTarget < ghost.leftDistanceToTarget && 
+      ghost.rightDistanceToTarget < ghost.upperDistanceToTarget) {
         ghost.move = 1
         return
       } 
 
       if (
-        leftDistanceToTarget < lowerDistanceToTarget && 
-      leftDistanceToTarget < rightDistanceToTarget && 
-      leftDistanceToTarget < upperDistanceToTarget) {
+        ghost.leftDistanceToTarget < ghost.lowerDistanceToTarget && 
+      ghost.leftDistanceToTarget < ghost.rightDistanceToTarget && 
+      ghost.leftDistanceToTarget < ghost.upperDistanceToTarget) {
         ghost.move = -1
         return
       } 
 
-      if (upperDistanceToTarget !== 100000){
+      if (ghost.upperDistanceToTarget !== 100000){
         ghost.move = -10
         return
-      } else if (rightDistanceToTarget !== 100000){
+      } else if (ghost.rightDistanceToTarget !== 100000){
         ghost.move = 1
         return
-      } else if (lowerDistanceToTarget !== 100000){
+      } else if (ghost.lowerDistanceToTarget !== 100000){
         ghost.move = 10
         return
       } else {
@@ -266,8 +274,17 @@ function init() {
     }
 
   }
+  
+  
 
-  setInterval(moveGhost, 200)
+
+  setInterval(()=> {
+    moveGhost(greenGhost)
+  }, 200)
+
+  setInterval(()=> {
+    moveGhost(redGhost)
+  }, 350)
 
   // ------------------------------------------- GHOST TARGETTING LOGIC -------------------------------------- 
 
