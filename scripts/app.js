@@ -15,6 +15,39 @@ function init() {
   const scoreDisplay = document.getElementById('score-display')
   const body = document.body
 
+
+    // ------------------------------------------------------- START GAME  -------------------------------------- //
+
+
+
+    function startGame() {
+
+      if (!playing){
+        //build board
+        playing = true
+        buildBoard()
+        //begin pacman movement
+        setInterval(movePacMan, 130)
+        setInterval(eatFruit, 130)
+        setInterval(eatBigFruit, 130)
+        setInterval(checkForWin, 130)
+        //begin ghost movement
+        setInterval(()=> {
+          moveGhost(greenGhost)
+        }, 400)
+    
+        setInterval(()=> {
+          moveGhost(redGhost)
+        }, 400)
+      }
+      //toggle between chase and scatter modes
+      
+      toggleChaseMode = setInterval(() => {
+        toggleChase(chase)
+      }, 5000)
+      //setInterval(checkForLose, 150)
+    }
+
   // -------------------------------------------------------CREATE BOARD -------------------------------------- //
 
   function createCells(){
