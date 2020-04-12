@@ -68,6 +68,10 @@ function init() {
   }
 
 
+  // -------------------------------------------------------PACMAN OBJECT AND MOVEMENT -------------------------------------- //
+
+  
+
 
   function movePacMan(){
     cells[pacman.divNo].classList.remove('pacman')
@@ -76,17 +80,18 @@ function init() {
     //     86      =     85   +   1
 
     if (!wallCells.includes(newDiv)){
-    //                     86
+      //                     86
       pacman.divNo += pacman.move
       cells[pacman.divNo].classList.add('pacman')
-    // cells[86]
-    // console.log(pacman.divNo + ' no clash can move')
+      // cells[86]
+      // console.log(pacman.divNo + ' no clash can move')
     } else {
       cells[pacman.divNo].classList.add('pacman')
-    // console.log(pacman.divNo + ' CLASHED')
+      // console.log(pacman.divNo + ' CLASHED')
     }
   }
-  setInterval(movePacMan, 130)
+
+
 
   // ------------------------------------------- VALIDATE KEY PRESS AND UPDATE PACMAN MOVE -------------------------------------- 
 
