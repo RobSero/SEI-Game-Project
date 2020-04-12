@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+}
+
+.controls-wrapper {
+  height: 10vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.grid-wrapper {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+}
+
+.grid {
+  align-items: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  justify-content: center;
+  height: 600px;
+  width: 600px;
+}
+
+.grid div {
+  border: 1px solid lightgrey;
+  flex-grow: 1;
+  height: 5%;
+  width: 5%;
+}
+
+.grid div.pika {
+  background-image: url('../assets/pika-sprite.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.blueStuff {
+  background-color: blue;
+  color: azure;
+}
+
+.pacman {
+  background-color: yellow;
+}
+
+.fruit {
+   background-image: url('../assets/fruit.png'); 
+   background-size: contain;
+}
+
+.bigFruit {
+  background-image: url('https://img.favpng.com/13/1/25/cream-milk-cheese-cartoon-png-favpng-jgCH5CUj81EBAWjfUhZc10Akv.jpg'); 
+  background-size: contain;
+}
+
+.greenGhost {
+  background-image: url('/assets/greenGhost.png');
+   background-size: contain;
+}
+
+.redGhost {
+  background-image: url('/assets/redGhost.png');
+   background-size: contain;
+}
