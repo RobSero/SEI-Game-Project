@@ -7,6 +7,8 @@ body {
   margin: 0;
 }
 
+/* ------------------------ GRID STYLING ---------------------- */
+
 .controls-wrapper {
   height: 10vh;
   display: flex;
@@ -45,10 +47,17 @@ body {
   cursor: pointer;
 }
 
+/* ------------------------ ENVIRONMENT STYLING, WALLS, BACKGROUND ---------------------- */
+
+
 .blueStuff {
   background-color: blue;
   color: azure;
 }
+
+
+/* ------------------------ GAME PIECES  ---------------------- */
+
 
 .pacman {
   background-color: yellow;
