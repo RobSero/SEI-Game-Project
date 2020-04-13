@@ -42,10 +42,11 @@ function init() {
   const scoreDisplay = document.getElementById('score-display')
   const mainMenu = document.getElementById('main-menu')
   const gameOverMenu = document.querySelector('.gameOver')
+  const gameWinMenu = document.querySelector('.gameWon')
   const resetButton = document.querySelector('#restart')
+  const resetButtonWin = document.querySelector('#restartWin')
   const endScore = document.getElementById('end-score')
-  const clearBut = document.getElementById('clear')
-  const testReset = document.getElementById('TESTRESTART')
+
   // ------------------------------------------------------- START GAME  -------------------------------------- //
 
 
@@ -570,7 +571,7 @@ function init() {
       if (cells.every(cell => {
         return !(cell.classList.contains('fruit'))
       })) {
-        alert('you win!')
+        gameWin()
       }
     }
   }
@@ -721,6 +722,17 @@ function init() {
     resetButton.addEventListener('click', reset)
   }
 
+  function gameWin() {
+    playing = false
+    grid.innerHTML = ''
+    endScore.textContent = score
+    gridWrapper.style.display = 'none'
+    controlWrapper.style.display = 'none'
+    mainMenu.style.display = 'none'
+    gameWinMenu.style.display = 'block'
+    resetButtonWin.addEventListener('click', reset)
+  }
+
   function reset(){
     score = 0
     gridWrapper.style.display = 'none'
@@ -728,7 +740,10 @@ function init() {
     mainMenu.style.display = 'block'
     mainMenu.style.display = 'fixed'
     gameOverMenu.style.display = 'none'
+    gameWinMenu.style.display = 'none'
   }
+
+  grid.addEventListener('click', gameWin)
 
   // function RESETT() {
   //   cells = []
