@@ -109,6 +109,8 @@ function init() {
     rightDistanceToTarget: 0
   }
 
+  const ghosts = [greenGhost,redGhost]
+
   // -------------------------------------------------------CREATE BOARD -------------------------------------- //
 
   function buildBoard() {
