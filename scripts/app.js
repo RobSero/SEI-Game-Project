@@ -36,6 +36,9 @@ function init() {
   const startButton = document.getElementById('start')
   const scoreDisplay = document.getElementById('score-display')
   const mainMenu = document.getElementById('main-menu')
+  const gameOverMenu = document.querySelector('.gameOver')
+  const resetButton = document.querySelector('#restart')
+  const endScore = document.getElementById('end-score')
   
   // ------------------------------------------------------- START GAME  -------------------------------------- //
 
@@ -268,12 +271,7 @@ function init() {
   function eatFruit(){
     if (playing){
       if (cells[pacman.positionDivNo].classList.contains('fruit')){
-        score += 100
-        scoreDisplay.classList.add('scale')
-        setTimeout(()=>{
-          scoreDisplay.classList.remove('scale')
-        },100)
-        
+        scorePoints(100, pacman.positionDivNo)
         cells[pacman.positionDivNo].classList.remove('fruit')
         scoreDisplay.innerHTML = score
       } else {
@@ -287,7 +285,7 @@ function init() {
   function CheckForBigFruitEaten(){
     if (playing){
       if (cells[pacman.positionDivNo].classList.contains('bigFruit')){
-        score += 500
+        scorePoints(500,pacman.positionDivNo)
         cells[pacman.positionDivNo].classList.remove('bigFruit')
         scoreDisplay.innerHTML = score
         bigFruitEaten()
@@ -535,7 +533,7 @@ function init() {
     if (playing){
       ghosts.forEach(ghost => {
         if (pacman.positionDivNo === ghost.positionDivNo && ghost.state === 'scared'){
-          score += 500
+          scorePoints(500,ghost.positionDivNo)
           ghost.state = 'eaten'
           console.log(`${ghost.name} State: ${ghost.state}`)
         }
@@ -570,7 +568,7 @@ function init() {
     if (playing){
       ghosts.forEach(ghost => {
         if (pacman.positionDivNo === ghost.positionDivNo && ghost.state === 'normal') {
-          alert('you lose!')
+          gameOver()
         }
       })
     }
@@ -579,7 +577,9 @@ function init() {
   // setInterval(checkForLose, 50)
 
 
-  // ------------------------------------------- TRAP ONE TEST -------------------------------------- 
+
+
+  // ------------------------------------------- TRAP TEST -------------------------------------- 
 
   function checkForTrapTrigger(){
     if (playing){
@@ -641,6 +641,7 @@ function init() {
       }
       ghosts.forEach(ghost => {
         if (cells[ghost.positionDivNo].classList.contains('fire')){
+          scorePoints(500,ghost.positionDivNo)
           ghost.state = 'eaten'
         }
       })
@@ -648,6 +649,27 @@ function init() {
   }
 
  
+  // ------------------------------------------- SCORING  -------------------------------------- 
+  function scorePoints(pointsEarned, cellDivNo){
+    score += pointsEarned
+    scoreDisplay.classList.add('scale')
+    if (pointsEarned === 100) {
+      cells[cellDivNo].innerHTML = '<p>100</p>'
+      setTimeout(()=>{
+        cells[cellDivNo].innerHTML = ''
+      },500)
+    }
+    if (pointsEarned === 500) {
+      cells[cellDivNo].innerHTML = '<p>500</p>'
+      setTimeout(()=>{
+        cells[cellDivNo].innerHTML = ''
+      },500)
+    }
+    setTimeout(()=>{
+      scoreDisplay.classList.remove('scale')
+    },100)
+  }
+
 
 
   // ------------------------------------------- EVENTS  -------------------------------------- 
@@ -662,6 +684,26 @@ function init() {
     }
   })
   
+  function gameOver() {
+    endScore.textContent = score
+    gridWrapper.style.display = 'none'
+    controlWrapper.style.display = 'none'
+    mainMenu.style.display = 'none'
+    gameOverMenu.style.display = 'block'
+    resetButton.addEventListener('click', reset)
+  }
+
+  function reset(){
+    gridWrapper.style.display = 'none'
+    controlWrapper.style.display = 'none'
+    mainMenu.style.display = 'block'
+    mainMenu.style.display = 'fixed'
+    gameOverMenu.style.display = 'none'
+  }
+
+
+  clearBut.addEventListener
+
 }
 
 

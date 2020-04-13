@@ -111,6 +111,13 @@ body {
   flex-grow: 1;
   height: 5%;
   width: 5%;
+  font-size: 12px;
+  color: red;
+}
+
+.grid p {
+  filter: opacity(0.4);
+  transition: all 2s;
 }
 
 .grid div.pika {
@@ -178,4 +185,47 @@ body {
 .fire {
   background-image: url('/assets/fire.png');
   background-size: contain;
+}
+
+.gameOver {
+  background-image: url('/assets/parchment.png');
+  background-size: contain;
+  height: 400px;
+  width: 800px;
+  margin: 150px auto;
+  text-align: center;
+  display: block;
+  /* margin: 0 auto; */
+}
+
+.gameOver img {
+  width: 15%;
+  margin: -10px;
+  padding: 10px;
+}
+
+.gameOver h2 {
+  padding: 50px;
+  /* background-color: red; */
+  margin: 0 0 -20px 0
+}
+.gameOver h3 {
+  margin: 0;
+}
+
+.gameOver button {
+  margin: 20px;
+  height: 50px;
+  width: 200px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px black;
+  font-size: 15px;
+  background: rgb(161, 139, 110);
+  border: 2px solid rgb(78, 68, 54);
+  color: white;
+}
+
+.gameOver button:hover {
+  background-color: rgb(105, 89, 68);
+  cursor: pointer;
 }
