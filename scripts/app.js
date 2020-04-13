@@ -185,10 +185,10 @@ function init() {
     let moveDirection
     switch (event.keyCode){
       case 38:
-        moveDirection = -10
+        moveDirection = -width
         break
       case 40:
-        moveDirection = 10
+        moveDirection = width
         break
       case 39:
         moveDirection = 1
@@ -200,7 +200,7 @@ function init() {
         return
     }
 
-    if (wallCells.includes(pacman.divNo + moveDirection)){
+    if (wallCells.includes(pacman.positionDivNo + moveDirection)){
       return
     } else {
       if (moveDirection !== pacman.move){
@@ -208,6 +208,7 @@ function init() {
       }
     }
   }
+
 
 
   // ------------------------------------------- PACMAN EATS NORMAL FRUIT -------------------------------------- 
