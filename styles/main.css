@@ -5,6 +5,8 @@
 body {
   height: 100vh;
   margin: 0;
+  background-image: url('/assets/jungle2.png');
+   background-size: cover;
 }
 
 .controls-wrapper {
@@ -53,36 +55,37 @@ body {
 }
 
 .pacman {
-  background-color: yellow;
+  background-image: url('/assets/indi.png');
+   background-size: contain;
 }
 
-/* .fruit {
-   background-image: url('../assets/fruit.png'); 
+.fruit {
+   background-image: url('../assets/gem.png'); 
    background-size: contain;
-} */
+}
 
 .bigFruit {
-  background-image: url('https://img.favpng.com/13/1/25/cream-milk-cheese-cartoon-png-favpng-jgCH5CUj81EBAWjfUhZc10Akv.jpg'); 
+  background-image: url('/assets/ruby.png'); 
   background-size: contain;
 }
 
 .greenGhost {
-  background-image: url('/assets/greenGhost.png');
+  background-image: url('/assets/greenSnake.png');
    background-size: contain;
 }
 
 .redGhost {
-  background-image: url('/assets/redGhost.png');
+  background-image: url('/assets/redSnake.png');
    background-size: contain;
 }
 
 .yellowGhost {
-  background-image: url('/assets/yellowGhost.png');
+  background-image: url('/assets/brownSnake.png');
    background-size: contain;
 }
 
 .pinkGhost {
-  background-image: url('/assets/pinkGhost.png');
+  background-image: url('/assets/pinkSnake.png');
    background-size: contain;
 }
 
@@ -92,6 +95,6 @@ body {
 }
 
 .eatenGhost {
-  background-image: url('https://www.pinclipart.com/picdir/big/1-16779_cartoon-boat-clipart-library-cartoon-images-boat-png.png');
+  background-image: url('/assets/death.png');
   background-size: contain;
 }
