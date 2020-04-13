@@ -3,14 +3,28 @@
   <head>
     <meta charset="utf-8">
     <title>GRID GAME!</title>
-    <link id="stylesheet" rel="stylesheet" href="styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Gotu&display=swap" rel="stylesheet">
+        <link id="stylesheet" rel="stylesheet" href="styles/main.css">
     <script src="scripts/app.js" charset="utf-8"></script>
   </head>
   <body>
     <div class="controls-wrapper">
-      <button id="start">Start Whacking!</button>
-      <p>Current Score <span id="score-display">0</span></p>
+      <p>Current Score:</p> <p id="score-display">0 </p>
     </div>
+    <div class="main-menu" id='main-menu'>
+      <img class="logo" src="/assets/indianaLogo.png" alt="indiana jones logo">
+      <br />
+      <div class="parchment">
+      <img class="main-gem" src="/assets/gem.png" alt="gem">
+      <p>Collect All the Gems before the Snakes Get You!</p>
+      <img class="main-fire" src="/assets/fire.png" alt="fire">
+      <p>Watch out for the Boobie Trapped Temple</p>
+      <img class='main-ruby' src="/assets/ruby.png" alt="fire">
+      <p>Get the Fabled Rubys and Catch them Snakes!</p>
+      <button id="start">Lets Roll!</button>
+    </div>
+  </div>
+  
     <div class="grid-wrapper">
       <div class="grid"></div>
     </div>

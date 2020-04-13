@@ -31,8 +31,11 @@ function init() {
 
 
   const grid = document.querySelector('.grid')
+  const gridWrapper = document.querySelector('.grid-wrapper')
+  const controlWrapper = document.querySelector('.controls-wrapper')
   const startButton = document.getElementById('start')
   const scoreDisplay = document.getElementById('score-display')
+  const mainMenu = document.getElementById('main-menu')
   
   // ------------------------------------------------------- START GAME  -------------------------------------- //
 
@@ -229,6 +232,7 @@ function init() {
   // ------------------------------------------- VALIDATE KEY PRESS AND UPDATE PACMAN MOVE -------------------------------------- 
 
   function validatePress(event){
+    event.preventDefault()
     if (playing){
       let moveDirection
       switch (event.keyCode){
@@ -265,6 +269,11 @@ function init() {
     if (playing){
       if (cells[pacman.positionDivNo].classList.contains('fruit')){
         score += 100
+        scoreDisplay.classList.add('scale')
+        setTimeout(()=>{
+          scoreDisplay.classList.remove('scale')
+        },100)
+        
         cells[pacman.positionDivNo].classList.remove('fruit')
         scoreDisplay.innerHTML = score
       } else {
@@ -646,8 +655,9 @@ function init() {
   startButton.addEventListener('click', () => {
     if (!playing) {
       startGame()
-      grid.style.visibility = 'visible'
-      startButton.style.visibility = 'hidden'
+      gridWrapper.style.display = 'flex'
+      controlWrapper.style.display = 'flex'
+      mainMenu.style.display = 'none'
       window.addEventListener('keydown', validatePress)
     }
   })
