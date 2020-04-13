@@ -98,3 +98,13 @@ body {
   background-image: url('/assets/death.png');
   background-size: contain;
 }
+
+.trapOne {
+  background-image: url('/assets/trapOneTest.png');
+  background-size: contain;
+}
+
+.fire {
+  background-image: url('/assets/fire.png');
+  background-size: contain;
+}
