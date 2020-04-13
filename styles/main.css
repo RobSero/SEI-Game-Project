@@ -29,10 +29,12 @@ body {
   justify-content: center;
   height: 600px;
   width: 600px;
+  background-image: url('/assets/backdrop.jpg');
+   background-size: contain;
 }
 
 .grid div {
-  border: 1px solid lightgrey;
+  /* border: 1px solid lightgrey; */
   flex-grow: 1;
   height: 5%;
   width: 5%;
@@ -45,9 +47,9 @@ body {
   cursor: pointer;
 }
 
-.blueStuff {
-  background-color: blue;
-  color: azure;
+.walls {
+  background-image: url('/assets/testTile.png'); 
+  background-size: contain;
 }
 
 .pacman {

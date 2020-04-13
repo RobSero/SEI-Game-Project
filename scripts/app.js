@@ -170,7 +170,7 @@ function init() {
     // ----- ADD BUILD WALLS ON GRID
     function addCellWalls(){
       wallCells.forEach(item => {
-        cells[item].classList.add('blueStuff')
+        cells[item].classList.add('walls')
       })
     }
 
@@ -548,7 +548,7 @@ function init() {
     })
   }
 
-  setInterval(checkForLose, 50)
+  // setInterval(checkForLose, 50)
 
   // ------------------------------------------- EVENTS  -------------------------------------- 
 
