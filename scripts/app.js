@@ -46,6 +46,7 @@ function init() {
   const resetButton = document.querySelector('#restart')
   const resetButtonWin = document.querySelector('#restartWin')
   const endScore = document.getElementById('end-score')
+  const loseMethod = document.querySelector('.loseMethod')
 
   // ------------------------------------------------------- START GAME  -------------------------------------- //
 
@@ -580,7 +581,7 @@ function init() {
     if (playing){
       ghosts.forEach(ghost => {
         if (pacman.positionDivNo === ghost.positionDivNo && ghost.state === 'normal') {
-          gameOver()
+          gameOver('getting eaten')
         }
       })
     }
@@ -650,7 +651,7 @@ function init() {
   function checkForFireDeath(){
     if (playing){
       if (cells[pacman.positionDivNo].classList.contains('fire')){
-      // alert('you burned!')
+        gameOver('burning')
       }
       ghosts.forEach(ghost => {
         if (cells[ghost.positionDivNo].classList.contains('fire')){
@@ -711,9 +712,10 @@ function init() {
     }
   })
   
-  function gameOver() {
+  function gameOver(deathMethod) {
     playing = false
     grid.innerHTML = ''
+    loseMethod.textContent = `Shame you died by ${deathMethod}`
     endScore.textContent = score
     gridWrapper.style.display = 'none'
     controlWrapper.style.display = 'none'
@@ -735,6 +737,7 @@ function init() {
 
   function reset(){
     score = 0
+    scoreDisplay.innerHTML = score
     gridWrapper.style.display = 'none'
     controlWrapper.style.display = 'none'
     mainMenu.style.display = 'block'
