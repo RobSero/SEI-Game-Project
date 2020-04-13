@@ -7,8 +7,6 @@ body {
   margin: 0;
 }
 
-/* ------------------------ GRID STYLING ---------------------- */
-
 .controls-wrapper {
   height: 10vh;
   display: flex;
@@ -47,17 +45,10 @@ body {
   cursor: pointer;
 }
 
-/* ------------------------ ENVIRONMENT STYLING, WALLS, BACKGROUND ---------------------- */
-
-
 .blueStuff {
   background-color: blue;
   color: azure;
 }
-
-
-/* ------------------------ GAME PIECES  ---------------------- */
-
 
 .pacman {
   background-color: yellow;
@@ -81,4 +72,14 @@ body {
 .redGhost {
   background-image: url('/assets/redGhost.png');
    background-size: contain;
+}
+
+.scaredGhost {
+  background-image: url('/assets/yellowGhost.png');
+   background-size: contain;
+}
+
+.eatenGhost {
+  background-image: url('https://www.pinclipart.com/picdir/big/1-16779_cartoon-boat-clipart-library-cartoon-images-boat-png.png');
+  background-size: contain;
 }
