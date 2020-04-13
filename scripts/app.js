@@ -57,6 +57,9 @@ function init() {
       setInterval(()=> {
         moveGhost(redGhost)
       }, 300)
+      setInterval(()=> {
+        moveGhost(yellowGhost)
+      }, 300)
     }
     //toggle between chase and scatter modes
     toggleChase(chase)
@@ -110,7 +113,25 @@ function init() {
     rightDistanceToTarget: 0
   }
 
-  const ghosts = [greenGhost,redGhost]
+  const yellowGhost = {
+    name: 'yellowGhost',
+    prevDivNo: 0,
+    positionDivNo: 170,
+    move: 0,
+    target: 380,
+    initialTarget: 380,
+    state: 'normal',
+    upperDiv: 0,
+    lowerDiv: 0,
+    leftDiv: 0,
+    rightDiv: 0,
+    upperDistanceToTarget: 0,
+    lowerDistanceToTarget: 0,
+    leftDistanceToTarget: 0,
+    rightDistanceToTarget: 0
+  }
+
+  const ghosts = [greenGhost,redGhost, yellowGhost]
   // -------------------------------------------------------CREATE BOARD -------------------------------------- //
 
   function buildBoard() {
@@ -119,7 +140,7 @@ function init() {
       for (let i = 0; i < cellCount; i++){
         const cell = document.createElement('div')
         cell.setAttribute('id', i)
-        // cell.textContent = i
+        cell.textContent = i
         grid.appendChild(cell)
         cells.push(cell)
       }
@@ -428,6 +449,9 @@ function init() {
     }
     if (redGhost.state === 'normal'){
       redGhost.target = greenGhost.target - 11
+    }
+    if (yellowGhost.state === 'normal'){
+      yellowGhost.target = pacman.positionDivNo + pacman.move
     }
     // console.log(greenGhost.target)
   }
