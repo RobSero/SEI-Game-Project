@@ -489,7 +489,6 @@ function init() {
 
   // ------------------------------------------- WIN / LOSE CONDITION -------------------------------------- 
 
-
   function checkForWin() {
     if (cells.every(cell => {
       return !(cell.classList.contains('fruit'))
@@ -499,16 +498,14 @@ function init() {
   }
 
   function checkForLose() {
-    if (pacman.divNo === greenGhost.positionDivNo) {
-      clearInterval(toggleChaseMode)
-      clearInterval(scattering)
-      clearInterval(chasing)
-      clearInterval(moveGhost)
-      clearInterval(movePacMan)
-      alert('you lose')
-      
-    }
+    ghosts.forEach(ghost => {
+      if (pacman.positionDivNo === ghost.positionDivNo && ghost.state === 'normal') {
+        alert('you lose!')
+      }
+    })
   }
+
+  setInterval(checkForLose, 50)
 
   // ------------------------------------------- EVENTS  -------------------------------------- 
 
