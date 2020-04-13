@@ -54,10 +54,10 @@ body {
   background-color: yellow;
 }
 
-.fruit {
+/* .fruit {
    background-image: url('../assets/fruit.png'); 
    background-size: contain;
-}
+} */
 
 .bigFruit {
   background-image: url('https://img.favpng.com/13/1/25/cream-milk-cheese-cartoon-png-favpng-jgCH5CUj81EBAWjfUhZc10Akv.jpg'); 
@@ -74,8 +74,18 @@ body {
    background-size: contain;
 }
 
-.scaredGhost {
+.yellowGhost {
   background-image: url('/assets/yellowGhost.png');
+   background-size: contain;
+}
+
+.pinkGhost {
+  background-image: url('/assets/pinkGhost.png');
+   background-size: contain;
+}
+
+.scaredGhost {
+  background-image: url('https://www.pngfind.com/pngs/m/105-1056741_image-result-for-pacman-scared-ghost-pacman-dark.png');
    background-size: contain;
 }
 
