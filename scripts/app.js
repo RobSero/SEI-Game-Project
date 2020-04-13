@@ -258,8 +258,8 @@ function init() {
     if (ghost.state === 'waiting'){
       return
     }
-    ghost.upperDiv = ghost.positionDivNo - 10
-    ghost.lowerDiv = ghost.positionDivNo + 10
+    ghost.upperDiv = ghost.positionDivNo - width
+    ghost.lowerDiv = ghost.positionDivNo + width
     ghost.leftDiv = ghost.positionDivNo - 1
     ghost.rightDiv = ghost.positionDivNo + 1
     calculateSurroundingDistances(ghost)
@@ -340,7 +340,7 @@ function init() {
         ghost.upperDistanceToTarget < ghost.lowerDistanceToTarget && 
       ghost.upperDistanceToTarget < ghost.leftDistanceToTarget && 
       ghost.upperDistanceToTarget < ghost.rightDistanceToTarget) {
-        ghost.move = -10
+        ghost.move = - width
         return
         
         
@@ -350,7 +350,7 @@ function init() {
         ghost.lowerDistanceToTarget < ghost.rightDistanceToTarget && 
       ghost.lowerDistanceToTarget < ghost.leftDistanceToTarget && 
       ghost.lowerDistanceToTarget < ghost.upperDistanceToTarget) {
-        ghost.move = 10
+        ghost.move = width
         return
       } 
 
@@ -371,13 +371,13 @@ function init() {
       } 
 
       if (ghost.upperDistanceToTarget !== 100000){
-        ghost.move = -10
+        ghost.move = - width
         return
       } else if (ghost.rightDistanceToTarget !== 100000){
         ghost.move = 1
         return
       } else if (ghost.lowerDistanceToTarget !== 100000){
-        ghost.move = 10
+        ghost.move = width
         return
       } else {
         ghost.move = -1
