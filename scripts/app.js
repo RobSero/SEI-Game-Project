@@ -766,7 +766,7 @@ function init() {
   // }
 
   // testReset.addEventListener('click', RESETT)
-  // clearBut.addEventListener('click', gameOver)
+  //clearBut.addEventListener('click', gameOver)
 
 }
 
