@@ -318,6 +318,15 @@ function init() {
   function bigFruitEaten() {
     bigGemAudio.currentTime = 0
     bigGemAudio.play()
+    ghosts.forEach(ghost => {
+      if (ghost.state === 'normal'){
+        const curPosition = ghost.positionDivNo
+        ghost.positionDivNo = ghost.prevDivNo
+        ghost.prevDivNo = curPosition
+        cells[ghost.prevDivNo].classList.remove(ghost.name)
+        cells[ghost.prevDivNo].classList.remove('scaredGhost')
+      }
+    })
     setInterval(eatenGhostPath, 150)
     scaredGhostState()
     setInterval(scaredGhostPath, 150)
