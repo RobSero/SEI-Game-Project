@@ -873,7 +873,22 @@ function init() {
   window.addEventListener('click', playTheme)
   
   // autowin.addEventListener('click', gameWin)
+  const sheet = document.createElement('style')
+
+  function swapBackgroundRed() {
+    if (sheet.innerHTML === 'body {background-color: blue;}'){
+      sheet.innerHTML = 'body {background-color: red;}'
+      document.body.appendChild(sheet)
+    } else {
+      sheet.innerHTML = 'body {background-color: blue;}'
+      document.body.appendChild(sheet)
+    }
+  }
+  setInterval(swapBackgroundRed,4030)
+
 }
+ 
 
 
 window.addEventListener('DOMContentLoaded', init)
+

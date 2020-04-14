@@ -5,8 +5,8 @@
 body {
   height: 100vh;
   margin: 0;
-  background-image: url('/assets/jungle2.png');
-   background-size: cover;
+  /* background-image: url('/assets/jungle2.png');
+   background-size: cover; */
    font-family: 'Gotu', sans-serif;
    font-weight: 400;
 }
