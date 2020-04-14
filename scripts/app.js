@@ -26,7 +26,7 @@ function init() {
   let pinkGhostSpeed
   let yellowGhostSpeed
   let pacmanMoveInterval
-  let pacmanSpeed = 130
+  const pacmanSpeed = 130
   
   // const styleSheet = document.getElementById('stylesheet').sheet
 
@@ -202,7 +202,7 @@ function init() {
     for (let i = 0; i < cellCount; i++){
       const cell = document.createElement('div')
       cell.setAttribute('id', i)
-      cell.textContent = i
+      // cell.textContent = i
       grid.appendChild(cell)
       cells.push(cell)
     }
@@ -342,14 +342,6 @@ function init() {
         cells[ghost.prevDivNo].classList.remove('scaredGhost')
       }
     })
-    clearInterval(pacmanMoveInterval)
-    pacmanSpeed = 90
-    pacmanMoveInterval = setInterval(movePacMan, pacmanSpeed)
-    setTimeout(()=> {
-      clearInterval(pacmanMoveInterval)
-      pacmanSpeed = 130
-      pacmanMoveInterval = setInterval(movePacMan, pacmanSpeed)
-    },2000)
     setInterval(eatenGhostPath, 150)
     scaredGhostState()
     setInterval(scaredGhostPath, 150)
