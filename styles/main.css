@@ -176,7 +176,7 @@ body {
   background-size: contain;
 }
 
-.trapOne, .trapTwo {
+.trapOne, .trapTwo, .trapThree {
   background-image: url('/assets/trapOneTest.png');
   background-size: contain;
 }
@@ -188,6 +188,11 @@ body {
 
 .trapDoor {
   background-image: url('/assets/secretDoor.png');
+  background-size: contain;
+}
+
+.hole {
+  background-image: url('/assets/hole.png');
   background-size: contain;
 }
 
