@@ -47,6 +47,12 @@ function init() {
   const resetButtonWin = document.querySelector('#restartWin')
   const endScore = document.getElementById('end-score')
   const loseMethod = document.querySelector('.loseMethod')
+  const themeSongAudio = document.getElementById('theme-tune')
+  const coinAudio = document.getElementById('audio-coin')
+  const bigGemAudio = document.getElementById('audio-bigGem')
+  const deathAudio = document.getElementById('audio-death')
+  const cheerAudio = document.getElementById('audio-cheer')
+  // const autowin = document.getElementById('winbut')
 
   // ------------------------------------------------------- START GAME  -------------------------------------- //
 
@@ -286,9 +292,8 @@ function init() {
       if (cells[pacman.positionDivNo].classList.contains('fruit')){
         scorePoints(100, pacman.positionDivNo)
         cells[pacman.positionDivNo].classList.remove('fruit')
-        
-      } else {
-        cells[pacman.positionDivNo].classList.remove('fruit')
+        coinAudio.currentTime = 0
+        coinAudio.play()
       }
     }
   }
@@ -309,6 +314,8 @@ function init() {
   }
 
   function bigFruitEaten() {
+    bigGemAudio.currentTime = 0
+    bigGemAudio.play()
     setInterval(eatenGhostPath, 150)
     scaredGhostState()
     setInterval(scaredGhostPath, 150)
@@ -722,6 +729,9 @@ function init() {
     mainMenu.style.display = 'none'
     gameOverMenu.style.display = 'block'
     resetButton.addEventListener('click', reset)
+    themeSongAudio.pause()
+    deathAudio.CurrentTime = 0
+    deathAudio.play()
   }
 
   function gameWin() {
@@ -733,6 +743,9 @@ function init() {
     mainMenu.style.display = 'none'
     gameWinMenu.style.display = 'block'
     resetButtonWin.addEventListener('click', reset)
+    themeSongAudio.pause()
+    cheerAudio.CurrentTime = 0
+    cheerAudio.play()
   }
 
   function reset(){
@@ -744,6 +757,7 @@ function init() {
     mainMenu.style.display = 'fixed'
     gameOverMenu.style.display = 'none'
     gameWinMenu.style.display = 'none'
+    themeSongAudio.play()
   }
 
   grid.addEventListener('click', gameWin)
@@ -767,7 +781,14 @@ function init() {
 
   // testReset.addEventListener('click', RESETT)
   //clearBut.addEventListener('click', gameOver)
-
+  function playTheme(){
+    window.removeEventListener('click', playTheme)
+    themeSongAudio.loop = true
+    themeSongAudio.play()
+  }
+  window.addEventListener('click', playTheme)
+  
+  // autowin.addEventListener('click', gameWin)
 }
 
 
