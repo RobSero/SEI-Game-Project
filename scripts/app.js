@@ -57,6 +57,9 @@ function init() {
   const cheerAudio = document.getElementById('audio-cheer')
   const eatAudio = document.getElementById('audio-eat')
   const fireAudio = document.getElementById('audio-fire')
+  const openAudio = document.getElementById('audio-open')
+  const fallAudio = document.getElementById('audio-fall')
+
   // const autowin = document.getElementById('winbut')
 
   // ------------------------------------------------------- START GAME  -------------------------------------- //
@@ -463,8 +466,6 @@ function init() {
       ghost.upperDistanceToTarget < ghost.rightDistanceToTarget) {
         ghost.move = - width
         return
-        
-        
       }
 
       if (
@@ -697,16 +698,24 @@ function init() {
         gameOver('burning')
       }
       if (cells[pacman.positionDivNo].classList.contains('hole')){
+        fallAudio.currentTime = 0
+        fallAudio.play()
         gameOver('falling down a Hole')
       }
       ghosts.forEach(ghost => {
         if (cells[ghost.positionDivNo].classList.contains('fire') && ghost.state !== 'eaten'){
           scorePoints(500,ghost.positionDivNo)
           ghost.state = 'eaten'
+          cells[ghost.positionDivNo].classList.remove('scaredGhost')
+          cells[ghost.positionDivNo].classList.remove(ghost.name)
         }
         if (cells[ghost.positionDivNo].classList.contains('hole') && ghost.state !== 'eaten'){
           scorePoints(500,ghost.positionDivNo)
+          fallAudio.currentTime = 0
+          fallAudio.play()
           ghost.state = 'eaten'
+          cells[ghost.positionDivNo].classList.remove('scaredGhost')
+          cells[ghost.positionDivNo].classList.remove(ghost.name)
         }
       })
     }
@@ -716,6 +725,8 @@ function init() {
     holeTraps.forEach(holeCell => {
       cells[holeCell].classList.add('hole')
     })
+    openAudio.currentTime = 0
+    openAudio.play()
     setTimeout(()=> {
       holeTraps.forEach(holeCell => {
         cells[holeCell].classList.remove('hole')
@@ -739,7 +750,6 @@ function init() {
       }
     }
   }
-
   setInterval(secretDoorCheck,20)
 
 
