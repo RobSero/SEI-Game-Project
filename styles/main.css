@@ -26,7 +26,6 @@ body {
   margin: 0 auto;
   /* margin: 0 auto; */
 }
-
 .main-menu .logo {
   margin-top: 20px;
   width: 70%;
@@ -184,6 +183,11 @@ body {
 
 .fire {
   background-image: url('/assets/fire.png');
+  background-size: contain;
+}
+
+.trapDoor {
+  background-image: url('/assets/secretDoor.png');
   background-size: contain;
 }
 
