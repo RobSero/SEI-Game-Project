@@ -52,6 +52,8 @@ function init() {
   const bigGemAudio = document.getElementById('audio-bigGem')
   const deathAudio = document.getElementById('audio-death')
   const cheerAudio = document.getElementById('audio-cheer')
+  const eatAudio = document.getElementById('audio-eat')
+  const fireAudio = document.getElementById('audio-fire')
   // const autowin = document.getElementById('winbut')
 
   // ------------------------------------------------------- START GAME  -------------------------------------- //
@@ -555,6 +557,8 @@ function init() {
         if (pacman.positionDivNo === ghost.positionDivNo && ghost.state === 'scared'){
           scorePoints(500,ghost.positionDivNo)
           ghost.state = 'eaten'
+          eatAudio.currentTime = 0
+          eatAudio.play()
           console.log(`${ghost.name} State: ${ghost.state}`)
         }
       })
@@ -623,6 +627,8 @@ function init() {
     
     cells[fireStart].classList.add('fire')
     cells[fireEnd].classList.add('fire')
+    fireAudio.currentTime = 0
+    fireAudio.play()
 
     const fireTrap = setInterval(() => {
       fireStart += fireDirection
