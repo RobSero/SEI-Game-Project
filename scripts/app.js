@@ -50,6 +50,7 @@ function init() {
   const resetButtonWin = document.querySelector('#restartWin')
   const endScore = document.getElementById('end-score')
   const loseMethod = document.querySelector('.loseMethod')
+  const spriteStyleSheet = document.createElement('style')
   const themeSongAudio = document.getElementById('theme-tune')
   const coinAudio = document.getElementById('audio-coin')
   const bigGemAudio = document.getElementById('audio-bigGem')
@@ -286,9 +287,19 @@ function init() {
           break
         case 39:
           moveDirection = 1
+          clearInterval(pacmanAnimate)
+          spriteAnimate(1)
+          pacmanAnimate = setInterval(()=>{
+            spriteAnimate(1)
+          },pacmanSpeed)
           break
         case 37:
           moveDirection = -1
+          clearInterval(pacmanAnimate)
+          spriteAnimate(0)
+          pacmanAnimate = setInterval(()=>{
+            spriteAnimate(0)
+          },pacmanSpeed)
           break
         default:
           return
@@ -877,13 +888,14 @@ function init() {
 
   // ------------------------------------------- SPRITE ANIMATION INDIE  -------------------------------------- 
 
-  const spriteStyleSheet = document.createElement('style')
+  
 
   let spritePosition = 1
 
-  function spriteAnimate(){
-    spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/sprite${spritePosition}.png"); background-size: contain;}`
-    console.log(`sprite ${spritePosition} is used`)
+  function spriteAnimate(direction){
+    const scale = direction === 0 ? 'transform: scale(-1,1)' : 'transform: scale(1)' 
+    spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/sprite${spritePosition}.png"); background-size: contain; ${scale}}`
+    console.log(`sprite ${spritePosition} is used and ${direction} direction`)
     document.body.appendChild(spriteStyleSheet)
     if (spritePosition < 3){
       spritePosition += 1
@@ -893,10 +905,11 @@ function init() {
     
   }
 
-  setInterval(spriteAnimate,200)
+  let pacmanAnimate = setInterval(()=>{
+    spriteAnimate(0)
+  },pacmanSpeed)
 
  
-
 }
  
 
