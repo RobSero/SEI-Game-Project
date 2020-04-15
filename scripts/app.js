@@ -26,7 +26,7 @@ function init() {
   let pinkGhostSpeed
   let yellowGhostSpeed
   let pacmanMoveInterval
-  const pacmanSpeed = 200
+  const pacmanSpeed = 150
   let trapDoorCooldown = false
   let scaredGhostCooldown
   
