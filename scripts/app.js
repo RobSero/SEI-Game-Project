@@ -26,7 +26,8 @@ function init() {
   let pinkGhostSpeed
   let yellowGhostSpeed
   let pacmanMoveInterval
-  const pacmanSpeed = 130
+  const pacmanSpeed = 120
+  let trapDoorCooldown = false
   
   // const styleSheet = document.getElementById('stylesheet').sheet
 
@@ -285,18 +286,23 @@ function init() {
           spriteAnimate(2)
           pacmanAnimate = setInterval(()=>{
             spriteAnimate(2)
-          },pacmanSpeed)
+          },300)
           break
         case 40:
           moveDirection = width
+          clearInterval(pacmanAnimate)
+          spriteAnimate(-1)
+          pacmanAnimate = setInterval(()=>{
+            spriteAnimate(-1)
+          },300)
           break
         case 39:
-          moveDirection = 1
+          moveDirection = 1 
           clearInterval(pacmanAnimate)
           spriteAnimate(1)
           pacmanAnimate = setInterval(()=>{
             spriteAnimate(1)
-          },pacmanSpeed)
+          },300)
           break
         case 37:
           moveDirection = -1
@@ -304,7 +310,7 @@ function init() {
           spriteAnimate(0)
           pacmanAnimate = setInterval(()=>{
             spriteAnimate(0)
-          },pacmanSpeed)
+          },300)
           break
         default:
           return
@@ -755,13 +761,19 @@ function init() {
 
   function secretDoorCheck(){
     if (playing){
-      if (cells[pacman.positionDivNo].classList.contains('trapDoor')){
+      if (cells[pacman.positionDivNo].classList.contains('trapDoor') && trapDoorCooldown === false){
         console.log('trapdoor!')
-        
-        if (pacman.positionDivNo === 28){
+        trapDoorCooldown = true
+        setTimeout(() => {
+          trapDoorCooldown = false
+        }, 5000)
+        if (pacman.positionDivNo === 28){        
           pacman.positionDivNo = 373
-        } else {
+          cells[28].classList.remove('pacman')
+          
+        } else {   
           pacman.positionDivNo = 28
+          cells[373].classList.remove('pacman')
         }
       }
     }
@@ -905,8 +917,11 @@ function init() {
     if (direction === 2) {
       spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/spriteUp${spritePosition}.png"); background-size: contain;}`
     }
-    console.log(`sprite ${spritePosition} is used and ${direction} direction`)
-    document.body.appendChild(spriteStyleSheet)
+    if (direction === -1) {
+      spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/spriteDown${spritePosition}.png"); background-size: contain;}`
+    }
+    // console.log(`sprite ${spritePosition} is used and ${direction} direction`)
+    document.head.appendChild(spriteStyleSheet)
     if (spritePosition < 3){
       spritePosition += 1
     } else {
@@ -916,7 +931,7 @@ function init() {
   }
 
   let pacmanAnimate = setInterval(()=>{
-    spriteAnimate(2)
+    spriteAnimate(1)
   },pacmanSpeed)
 
  
