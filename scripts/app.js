@@ -281,6 +281,11 @@ function init() {
       switch (event.keyCode){
         case 38:
           moveDirection = -width
+          clearInterval(pacmanAnimate)
+          spriteAnimate(2)
+          pacmanAnimate = setInterval(()=>{
+            spriteAnimate(2)
+          },pacmanSpeed)
           break
         case 40:
           moveDirection = width
@@ -894,7 +899,12 @@ function init() {
 
   function spriteAnimate(direction){
     const scale = direction === 0 ? 'transform: scale(-1,1)' : 'transform: scale(1)' 
-    spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/sprite${spritePosition}.png"); background-size: contain; ${scale}}`
+    if (direction === 0 || direction === 1){
+      spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/sprite${spritePosition}.png"); background-size: contain; ${scale}}`
+    }
+    if (direction === 2) {
+      spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/spriteUp${spritePosition}.png"); background-size: contain;}`
+    }
     console.log(`sprite ${spritePosition} is used and ${direction} direction`)
     document.body.appendChild(spriteStyleSheet)
     if (spritePosition < 3){
@@ -906,7 +916,7 @@ function init() {
   }
 
   let pacmanAnimate = setInterval(()=>{
-    spriteAnimate(0)
+    spriteAnimate(2)
   },pacmanSpeed)
 
  
