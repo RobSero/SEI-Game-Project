@@ -26,7 +26,7 @@ function init() {
   let pinkGhostSpeed
   let yellowGhostSpeed
   let pacmanMoveInterval
-  const pacmanSpeed = 120
+  const pacmanSpeed = 200
   let trapDoorCooldown = false
   let scaredGhostCooldown
   
@@ -797,8 +797,10 @@ function init() {
       },500)
     }
     if (pointsEarned === 500) {
+      cells[cellDivNo].classList.add('largePointText')
       cells[cellDivNo].innerHTML = '<p>500</p>'
       setTimeout(()=>{
+        cells[cellDivNo].classList.remove('largePointText')
         cells[cellDivNo].innerHTML = ''
       },500)
     }

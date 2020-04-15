@@ -146,6 +146,12 @@ body {
   background-size: contain;
 }
 
+.grid .largePointText {
+  font-size: 17px;
+  font-weight: 800;
+  color: blue;
+}
+
 .greenGhost {
   background-image: url('/assets/greenSnake.png');
    background-size: contain;
