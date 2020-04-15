@@ -873,18 +873,24 @@ function init() {
   window.addEventListener('click', playTheme)
   
   // autowin.addEventListener('click', gameWin)
-  const sheet = document.createElement('style')
+  const spriteStyleSheet = document.createElement('style')
 
-  function swapBackgroundRed() {
-    if (sheet.innerHTML === 'body {background-color: blue;}'){
-      sheet.innerHTML = 'body {background-color: red;}'
-      document.body.appendChild(sheet)
+  let spritePosition = 1
+  function spriteAnimate(){
+    spriteStyleSheet.innerHTML === `.pacman {background-image: url(/assets/sprite${spritePosition}.png);
+    background-size: contain;}`
+    console.log(`sprite ${spritePosition} is used`)
+    document.body.appendChild(spriteStyleSheet)
+    if (spritePosition < 3){
+      spritePosition += 1
     } else {
-      sheet.innerHTML = 'body {background-color: blue;}'
-      document.body.appendChild(sheet)
+      spritePosition = 1
     }
+    
   }
-  setInterval(swapBackgroundRed,4030)
+
+
+  setInterval(spriteAnimate,2000)
 
 }
  
