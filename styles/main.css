@@ -131,10 +131,10 @@ body {
   background-size: contain;
 }
 
-.pacman {
+/* .pacman {
   background-image: url('/assets/indi.png');
    background-size: contain;
-}
+} */
 
 .fruit {
    background-image: url('../assets/gem.png'); 

@@ -873,12 +873,16 @@ function init() {
   window.addEventListener('click', playTheme)
   
   // autowin.addEventListener('click', gameWin)
+
+
+  // ------------------------------------------- SPRITE ANIMATION INDIE  -------------------------------------- 
+
   const spriteStyleSheet = document.createElement('style')
 
   let spritePosition = 1
+
   function spriteAnimate(){
-    spriteStyleSheet.innerHTML === `.pacman {background-image: url(/assets/sprite${spritePosition}.png);
-    background-size: contain;}`
+    spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/sprite${spritePosition}.png"); background-size: contain;}`
     console.log(`sprite ${spritePosition} is used`)
     document.body.appendChild(spriteStyleSheet)
     if (spritePosition < 3){
@@ -889,8 +893,9 @@ function init() {
     
   }
 
+  setInterval(spriteAnimate,200)
 
-  setInterval(spriteAnimate,2000)
+ 
 
 }
  
