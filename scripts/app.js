@@ -287,7 +287,7 @@ function init() {
           spriteAnimate(2)
           pacmanAnimate = setInterval(()=>{
             spriteAnimate(2)
-          },300)
+          },600)
           break
         case 40:
           moveDirection = width
@@ -295,7 +295,7 @@ function init() {
           spriteAnimate(-1)
           pacmanAnimate = setInterval(()=>{
             spriteAnimate(-1)
-          },300)
+          },600)
           break
         case 39:
           moveDirection = 1 
@@ -303,7 +303,7 @@ function init() {
           spriteAnimate(1)
           pacmanAnimate = setInterval(()=>{
             spriteAnimate(1)
-          },300)
+          },600)
           break
         case 37:
           moveDirection = -1
@@ -311,7 +311,7 @@ function init() {
           spriteAnimate(0)
           pacmanAnimate = setInterval(()=>{
             spriteAnimate(0)
-          },300)
+          },600)
           break
         default:
           return
