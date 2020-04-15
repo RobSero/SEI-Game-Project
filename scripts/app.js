@@ -28,6 +28,7 @@ function init() {
   let pacmanMoveInterval
   const pacmanSpeed = 120
   let trapDoorCooldown = false
+  let scaredGhostCooldown
   
   // const styleSheet = document.getElementById('stylesheet').sheet
 
@@ -358,6 +359,7 @@ function init() {
   function bigFruitEaten() {
     bigGemAudio.currentTime = 0
     bigGemAudio.play()
+    clearTimeout(scaredGhostCooldown)
     ghosts.forEach(ghost => {
       if (ghost.state === 'normal'){
         const curPosition = ghost.positionDivNo
@@ -370,7 +372,8 @@ function init() {
     setInterval(eatenGhostPath, 150)
     scaredGhostState()
     setInterval(scaredGhostPath, 150)
-    setTimeout(()=> {
+
+    scaredGhostCooldown = setTimeout(()=> {
       resetGhostState()
       toggleChase(chase)
     }, 6000)
