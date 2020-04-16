@@ -560,7 +560,7 @@ function init() {
         greenGhost.target = pacman.positionDivNo
       }
       if (redGhost.state === 'normal'){
-        redGhost.target = greenGhost.target - 11
+        redGhost.target = pacman.positionDivNo + 7
       }
       if (yellowGhost.state === 'normal'){
         yellowGhost.target = pacman.positionDivNo + pacman.move
