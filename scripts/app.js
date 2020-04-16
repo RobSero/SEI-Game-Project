@@ -17,14 +17,9 @@ function init() {
   const startingPostion = 350
   let score = 0
   let chase = true
-  let toggleChaseMode
-  let scattering 
-  let chasing
+  let toggleChaseMode //Assigned an interval to swap between modes
+  let chaseOrScattering
   const ghostHome = 170 
-  let greenGhostSpeed
-  let redGhostSpeed
-  let pinkGhostSpeed
-  let yellowGhostSpeed
   let pacmanMoveInterval
   const pacmanSpeed = 150
   let trapDoorCooldown = false
@@ -84,19 +79,24 @@ function init() {
       setInterval(CheckForBigFruitEaten, 130)
       setInterval(checkForWin, 130)
       //begin ghost movement
-      greenGhostSpeed = setInterval(()=> {
-        moveGhost(greenGhost)
-      }, 300)
-      redGhostSpeed = setInterval(()=> {
-        moveGhost(redGhost)
-      }, 300)
-      pinkGhostSpeed = setInterval(()=> {
-        moveGhost(yellowGhost)
-      }, 300)
-      yellowGhostSpeed = setInterval(()=> {
-        moveGhost(pinkGhost)
-      }, 300)
+      // greenGhostSpeed = setInterval(()=> {
+      //   moveGhost(greenGhost)
+      // }, 300)
+      // redGhostSpeed = setInterval(()=> {
+      //   moveGhost(redGhost)
+      // }, 300)
+      // pinkGhostSpeed = setInterval(()=> {
+      //   moveGhost(yellowGhost)
+      // }, 300)
+      // yellowGhostSpeed = setInterval(()=> {
+      //   moveGhost(pinkGhost)
+      // }, 300)
       
+      ghosts.forEach(ghost => {
+        ghost.speed = setInterval(()=> {
+          moveGhost(ghost)
+        },300)
+      })
 
     }
     //toggle between chase and scatter modes
@@ -122,6 +122,8 @@ function init() {
     move: 0,
     target: 19,
     initialTarget: 19,
+    chaseTarget: pacman.positionDivNo,
+    speed: '',
     state: 'normal',
     upperDiv: 0,
     lowerDiv: 0,
@@ -140,6 +142,8 @@ function init() {
     move: 0,
     target: 0,
     initialTarget: 0,
+    chaseTarget: pacman.positionDivNo + 7,
+    speed: '',
     state: 'normal',
     upperDiv: 0,
     lowerDiv: 0,
@@ -158,6 +162,8 @@ function init() {
     move: 0,
     target: 380,
     initialTarget: 380,
+    chaseTarget: pacman.positionDivNo + pacman.move,
+    speed: '',
     state: 'normal',
     upperDiv: 0,
     lowerDiv: 0,
@@ -176,6 +182,8 @@ function init() {
     move: 0,
     target: 399,
     initialTarget: 399,
+    chaseTarget: pacman.positionDivNo + 10,
+    speed: '',
     state: 'normal',
     upperDiv: 0,
     lowerDiv: 0,
@@ -541,14 +549,14 @@ function init() {
   function toggleChase(isChasing){
     if (playing){
       if (isChasing){
-        clearInterval(chasing)
+        clearInterval(chaseOrScattering)
         chase = false
-        scattering = setInterval(scatterGhostPath, 150)
+        chaseOrScattering = setInterval(scatterGhostPath, 150)
       // body.style.backgroundColor = 'green'
       } else {
-        clearInterval(scattering)
+        clearInterval(chaseOrScattering)
         chase = true
-        chasing = setInterval(ghostChasePath, 500)
+        chaseOrScattering = setInterval(ghostChasePath, 500)
       // body.style.backgroundColor = 'pink'
       }
     }
@@ -556,18 +564,23 @@ function init() {
 
   function ghostChasePath() {
     if (playing){
-      if (greenGhost.state === 'normal'){
-        greenGhost.target = pacman.positionDivNo
-      }
-      if (redGhost.state === 'normal'){
-        redGhost.target = pacman.positionDivNo + 7
-      }
-      if (yellowGhost.state === 'normal'){
-        yellowGhost.target = pacman.positionDivNo + pacman.move
-      }
-      if (pinkGhost.state === 'normal'){
-        pinkGhost.target = pacman.positionDivNo + 10
-      }
+      // if (greenGhost.state === 'normal'){
+      //   greenGhost.target = pacman.positionDivNo
+      // }
+      // if (redGhost.state === 'normal'){
+      //   redGhost.target = pacman.positionDivNo + 7
+      // }
+      // if (yellowGhost.state === 'normal'){
+      //   yellowGhost.target = pacman.positionDivNo + pacman.move
+      // }
+      // if (pinkGhost.state === 'normal'){
+      //   pinkGhost.target = pacman.positionDivNo + 10
+      // }
+      ghosts.forEach(ghost => {
+        if (ghost.state === 'normal'){
+          ghost.target = ghost.chaseTarget
+        }
+      })
     // console.log(greenGhost.target)
     }
   }
@@ -816,10 +829,13 @@ function init() {
   startButton.addEventListener('click', () => {
     if (!playing) {
       cells = []
-      clearInterval(greenGhostSpeed)
-      clearInterval(redGhostSpeed)
-      clearInterval(yellowGhostSpeed)
-      clearInterval(pinkGhostSpeed)
+      ghosts.forEach(ghost => {
+        clearInterval(ghost.speed)
+      })
+      // clearInterval(greenGhostSpeed)
+      // clearInterval(redGhostSpeed)
+      // clearInterval(yellowGhostSpeed)
+      // clearInterval(pinkGhostSpeed)
       clearInterval(pacmanMoveInterval)
       clearInterval(toggleChaseMode)
       chase = true
