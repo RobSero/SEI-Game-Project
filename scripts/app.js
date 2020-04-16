@@ -102,8 +102,8 @@ function init() {
   function startPacmanLogic() {
     setInterval(eatFruit, 130)
     setInterval(eatBigFruit, 130)
-    setInterval(checkForWin, 130)
-    setInterval(checkForLose, 10)
+    setInterval(checkForWin, 20)
+    setInterval(checkForLose, 20)
     setInterval(secretDoorCheck,20)
     pacmanMoveInterval = setInterval(movePacMan, pacmanSpeed)
   }
@@ -216,7 +216,7 @@ function init() {
   }
 
   const ghosts = [greenGhost,redGhost, yellowGhost, pinkGhost]
-  
+
   // -------------------------------------------------------CREATE BOARD -------------------------------------- //
 
   function buildBoard() {
@@ -279,8 +279,8 @@ function init() {
   }
 
   function addSecretDoors() {
-    cells[28].classList.add('trapDoor')
-    cells[373].classList.add('trapDoor')
+    cells[trapDoor[0]].classList.add('trapDoor')
+    cells[trapDoor[1]].classList.add('trapDoor')
   }
   
   // -------------------------------------------------------PACMAN OBJECT AND MOVEMENT -------------------------------------- //
@@ -421,10 +421,7 @@ function init() {
       if (ghost.state === 'waiting'){
         return
       }
-      ghost.upperDiv = ghost.positionDivNo - width
-      ghost.lowerDiv = ghost.positionDivNo + width
-      ghost.leftDiv = ghost.positionDivNo - 1
-      ghost.rightDiv = ghost.positionDivNo + 1
+      getSurroundingCells(ghost)
       calculateSurroundingDistances(ghost)
       findShortestRoute(ghost)
     
@@ -437,16 +434,13 @@ function init() {
       cells[ghost.positionDivNo].classList.add( ghostIcon(ghost))
 
     }
-    function ghostIcon(ghost) {
-      if (ghost.state === 'scared'){
-        return 'scaredGhost'
-      } else if (ghost.state === 'eaten') {
-        console.log('yummy')
-        
-        return 'eatenGhost'
-      } else {
-        return ghost.name
-      }
+   
+
+    function getSurroundingCells(ghost) {
+      ghost.upperDiv = ghost.positionDivNo - width
+      ghost.lowerDiv = ghost.positionDivNo + width
+      ghost.leftDiv = ghost.positionDivNo - 1
+      ghost.rightDiv = ghost.positionDivNo + 1
     }
 
     // ------- Calculating each cell around
@@ -486,7 +480,6 @@ function init() {
       }
     }
     
-
     // ------------- PYTHAGORAS --------------------
 
     function pythagorusTheory(target, possibleDiv) {
@@ -545,6 +538,16 @@ function init() {
         return
       }
 
+    }
+
+    function ghostIcon(ghost) {
+      if (ghost.state === 'scared'){
+        return 'scaredGhost'
+      } else if (ghost.state === 'eaten') {
+        return 'eatenGhost'
+      } else {
+        return ghost.name
+      }
     }
 
   }
@@ -634,9 +637,6 @@ function init() {
     }
   }
 
-
-  
-
   // ------------------------------------------- WIN / LOSE CONDITION -------------------------------------- 
 
 
@@ -659,7 +659,6 @@ function init() {
       })
     }
   }
-
 
   // ------------------------------------------- TRAPS -------------------------------------- 
 
@@ -785,9 +784,6 @@ function init() {
     }
   }
   
-
-
-
   // ------------------------------------------- SCORING  -------------------------------------- 
   function scorePoints(pointsEarned, cellDivNo){
     score += pointsEarned
