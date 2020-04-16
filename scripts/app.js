@@ -14,6 +14,7 @@ function init() {
   const bigFruitCells = [21,38,198,361,378]
   const trapDoor = [28,373]
   const holeTraps = [230,231,232,250,251,252]
+  let trapDoorCooldown = false
   const startingPostion = 350
   let score = 0
   let chase = true
@@ -23,15 +24,8 @@ function init() {
   const ghostHome = 170 
   let pacmanMoveInterval
   const pacmanSpeed = 150
-  let trapDoorCooldown = false
   let scaredGhostCooldown
   
-  // const styleSheet = document.getElementById('stylesheet').sheet
-
-  // styleSheet.insertRule('body {background-color: yellow}')
-  // styleSheet.deleteRule('.greenGhost { background-image: url(/assets/greenGhost.png)}')
-  // styleSheet.insertRule('.greenGhost { background-image: url(/assets/yellowGhost.png)}')
-
 
   // ------------------------------------------------------- ELEMENTS  -------------------------------------- //
 
@@ -59,15 +53,29 @@ function init() {
   const openAudio = document.getElementById('audio-open')
   const fallAudio = document.getElementById('audio-fall')
 
-  // const autowin = document.getElementById('winbut')
-
   // ------------------------------------------------------- START GAME  -------------------------------------- //
-
+  startButton.addEventListener('click', () => {
+    if (!playing) {
+      ghosts.forEach(ghost => {
+        clearInterval(ghost.speed)
+      })
+      ghosts.forEach(ghost => {
+        ghost.positionDivNo = 170
+        ghost.state = 'normal'
+      })
+      pacman.positionDivNo = startingPostion
+      startGame()
+      gridWrapper.style.display = 'flex'
+      controlWrapper.style.display = 'flex'
+      mainMenu.style.display = 'none'
+      window.addEventListener('keydown', validatePress)
+    }
+  })
 
 
   function startGame() {
     if (!playing){
-      
+      cells = []
       //build board
       playing = true
       
@@ -96,9 +104,9 @@ function init() {
     setInterval(eatBigFruit, 130)
     setInterval(checkForWin, 130)
     setInterval(checkForLose, 10)
+    setInterval(secretDoorCheck,20)
     pacmanMoveInterval = setInterval(movePacMan, pacmanSpeed)
   }
-
 
   function startGhostLogic() {
     ghosts.forEach(ghost => {
@@ -115,7 +123,7 @@ function init() {
     eatenCheck = setInterval(checkIfEaten,40)
 
   }
-  //toggle between chase and scatter modes
+  
     
 
 
@@ -208,6 +216,7 @@ function init() {
   }
 
   const ghosts = [greenGhost,redGhost, yellowGhost, pinkGhost]
+  
   // -------------------------------------------------------CREATE BOARD -------------------------------------- //
 
   function buildBoard() {
@@ -303,12 +312,10 @@ function init() {
       switch (event.keyCode){
         case 38:
           moveDirection = -width
-          clearInterval(pacmanAnimate)
           changeSprite('up')
           break
         case 40:
           moveDirection = width
-          clearInterval(pacmanAnimate)
           changeSprite('down')
           break
         case 39:
@@ -332,7 +339,6 @@ function init() {
       }
     }
   }
-
 
   
   // ------------------------------------------- PACMAN EATS NORMAL FRUIT -------------------------------------- 
@@ -361,6 +367,7 @@ function init() {
   function bigFruitEaten() {
     audio(bigGemAudio)
     clearTimeout(scaredGhostCooldown)
+    scaredGhostState()
     ghosts.forEach(ghost => {
       if (ghost.state === 'normal'){
         const curPosition = ghost.positionDivNo
@@ -371,7 +378,7 @@ function init() {
       }
     })
     setInterval(eatenGhostPath, 150)
-    scaredGhostState()
+    
     setInterval(scaredGhostPath, 150)
 
     scaredGhostCooldown = setTimeout(()=> {
@@ -660,19 +667,19 @@ function init() {
     if (playing){
       if (cells[pacman.positionDivNo].classList.contains('trapOne')){
         cells[181].classList.remove('trapOne')
-        console.log('activate once')
+        // console.log('activate once')
         fireTrapActivate(21,361,20)
         setTimeout(addTrapOne, 11000)
       }
       if (cells[pacman.positionDivNo].classList.contains('trapTwo')){
         cells[172].classList.remove('trapTwo')
-        console.log('activate once')
+        // console.log('activate once')
         fireTrapActivate(167,178,1)
         setTimeout(addTrapTwo, 11000)
       }
       if (cells[pacman.positionDivNo].classList.contains('trapThree')){
         cells[pacman.positionDivNo].classList.remove('trapThree')
-        console.log('activate hole trap once')
+        // console.log('activate hole trap once')
         holeTrapActivate()
       }
 
@@ -727,13 +734,13 @@ function init() {
       }
       ghosts.forEach(ghost => {
         if (cells[ghost.positionDivNo].classList.contains('fire') && ghost.state !== 'eaten'){
-          scorePoints(500,ghost.positionDivNo)
+          scorePoints(1000,ghost.positionDivNo)
           ghost.state = 'eaten'
           cells[ghost.positionDivNo].classList.remove('scaredGhost')
           cells[ghost.positionDivNo].classList.remove(ghost.name)
         }
         if (cells[ghost.positionDivNo].classList.contains('hole') && ghost.state !== 'eaten'){
-          scorePoints(500,ghost.positionDivNo)
+          scorePoints(1000,ghost.positionDivNo)
           audio(fallAudio)
           ghost.state = 'eaten'
           cells[ghost.positionDivNo].classList.remove('scaredGhost')
@@ -761,7 +768,7 @@ function init() {
   function secretDoorCheck(){
     if (playing){
       if (cells[pacman.positionDivNo].classList.contains('trapDoor') && trapDoorCooldown === false){
-        console.log('trapdoor!')
+        // console.log('trapdoor!')
         trapDoorCooldown = true
         setTimeout(() => {
           trapDoorCooldown = false
@@ -777,7 +784,7 @@ function init() {
       }
     }
   }
-  setInterval(secretDoorCheck,20)
+  
 
 
 
@@ -786,6 +793,10 @@ function init() {
     score += pointsEarned
     scoreDisplay.innerHTML = score
     scoreDisplay.classList.add('scale')
+    setTimeout(()=>{
+      scoreDisplay.classList.remove('scale')
+    },100)
+
     if (pointsEarned === 100) {
       cells[cellDivNo].innerHTML = '<p>100</p>'
       setTimeout(()=>{
@@ -800,49 +811,20 @@ function init() {
         cells[cellDivNo].innerHTML = ''
       },500)
     }
-    setTimeout(()=>{
-      scoreDisplay.classList.remove('scale')
-    },100)
+    
   }
 
 
 
   // ------------------------------------------- EVENTS  -------------------------------------- 
 
-  startButton.addEventListener('click', () => {
-    if (!playing) {
-      cells = []
-      ghosts.forEach(ghost => {
-        clearInterval(ghost.speed)
-      })
-      // clearInterval(greenGhostSpeed)
-      // clearInterval(redGhostSpeed)
-      // clearInterval(yellowGhostSpeed)
-      // clearInterval(pinkGhostSpeed)
-      clearInterval(pacmanMoveInterval)
-      clearInterval(toggleChaseMode)
-      chase = true
-      ghosts.forEach(ghost => {
-        ghost.positionDivNo = 170
-        ghost.state = 'normal'
-      })
-      pacman.positionDivNo = startingPostion
-      startGame()
-      gridWrapper.style.display = 'flex'
-      controlWrapper.style.display = 'flex'
-      mainMenu.style.display = 'none'
-      window.addEventListener('keydown', validatePress)
-    }
-  })
+ 
   
   function gameOver(deathMethod) {
     playing = false
-    grid.innerHTML = ''
+    clearAll()
     loseMethod.textContent = `Shame you died by ${deathMethod}`
     endScore.textContent = score
-    gridWrapper.style.display = 'none'
-    controlWrapper.style.display = 'none'
-    mainMenu.style.display = 'none'
     gameOverMenu.style.display = 'block'
     resetButton.addEventListener('click', reset)
     themeSongAudio.pause()
@@ -851,11 +833,8 @@ function init() {
 
   function gameWin() {
     playing = false
-    grid.innerHTML = ''
+    clearAll()
     endScore.textContent = score
-    gridWrapper.style.display = 'none'
-    controlWrapper.style.display = 'none'
-    mainMenu.style.display = 'none'
     gameWinMenu.style.display = 'block'
     resetButtonWin.addEventListener('click', reset)
     themeSongAudio.pause()
@@ -865,16 +844,26 @@ function init() {
   function reset(){
     score = 0
     scoreDisplay.innerHTML = score
-    gridWrapper.style.display = 'none'
-    controlWrapper.style.display = 'none'
+    clearAll()
+    chase = true
     mainMenu.style.display = 'block'
     mainMenu.style.display = 'fixed'
-    gameOverMenu.style.display = 'none'
-    gameWinMenu.style.display = 'none'
+    clearInterval(pacmanMoveInterval)
+    clearInterval(toggleChaseMode)
     themeSongAudio.play()
   }
 
-  grid.addEventListener('click', gameWin)
+  function clearAll(){
+    grid.innerHTML = ''
+    gridWrapper.style.display = 'none'
+    controlWrapper.style.display = 'none'
+    mainMenu.style.display = 'none'
+    mainMenu.style.display = 'none'
+    gameOverMenu.style.display = 'none'
+    gameWinMenu.style.display = 'none'
+  }
+
+  // grid.addEventListener('click', gameWin)
 
   // function RESETT() {
   //   cells = []
@@ -895,22 +884,16 @@ function init() {
 
   // testReset.addEventListener('click', RESETT)
   //clearBut.addEventListener('click', gameOver)
-  function playTheme(){
-    window.removeEventListener('click', playTheme)
-    themeSongAudio.loop = true
-    themeSongAudio.play()
-  }
-  window.addEventListener('click', playTheme)
   
   // autowin.addEventListener('click', gameWin)
 
 
   // ------------------------------------------- SPRITE ANIMATION INDIE  -------------------------------------- 
 
-  
 
   let spritePosition = 1
   const spriteChangeSpeed = 600
+
   let pacmanAnimate = setInterval(()=>{
     spriteAnimate('right')
   },spriteChangeSpeed)
@@ -925,6 +908,7 @@ function init() {
 
   function spriteAnimate(direction){
     const scale = direction === 'left' ? 'transform: scale(-1,1)' : 'transform: scale(1)' 
+
     if (direction === 'left' || direction === 'right'){
       spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/sprite${spritePosition}.png"); background-size: contain; ${scale}}`
     }
@@ -944,9 +928,6 @@ function init() {
     
   }
 
- 
-
- 
 
   // ------------------------------------------- SPRITE ANIMATION INDIE  -------------------------------------- 
 
@@ -954,6 +935,14 @@ function init() {
     sound.currentTime = 0
     sound.play()
   }
+
+  function playTheme(){
+    window.removeEventListener('click', playTheme)
+    themeSongAudio.loop = true
+    themeSongAudio.play()
+  }
+  window.addEventListener('click', playTheme)
+  
 
 }
  
