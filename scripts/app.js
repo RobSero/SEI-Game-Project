@@ -95,7 +95,7 @@ function init() {
     setInterval(eatFruit, 130)
     setInterval(eatBigFruit, 130)
     setInterval(checkForWin, 130)
-    setInterval(checkForLose, 50)
+    setInterval(checkForLose, 10)
     pacmanMoveInterval = setInterval(movePacMan, pacmanSpeed)
   }
 
@@ -278,7 +278,7 @@ function init() {
 
   function movePacMan(){
     cells[pacman.positionDivNo].classList.remove('pacman')
-    //  CELLS[85]
+    //  eg: CELLS[85]
     const newDiv = pacman.positionDivNo + pacman.move
     //     86      =     85   +   1
 
@@ -304,34 +304,20 @@ function init() {
         case 38:
           moveDirection = -width
           clearInterval(pacmanAnimate)
-          spriteAnimate(2)
-          pacmanAnimate = setInterval(()=>{
-            spriteAnimate(2)
-          },600)
+          changeSprite('up')
           break
         case 40:
           moveDirection = width
           clearInterval(pacmanAnimate)
-          spriteAnimate(-1)
-          pacmanAnimate = setInterval(()=>{
-            spriteAnimate(-1)
-          },600)
+          changeSprite('down')
           break
         case 39:
           moveDirection = 1 
-          clearInterval(pacmanAnimate)
-          spriteAnimate(1)
-          pacmanAnimate = setInterval(()=>{
-            spriteAnimate(1)
-          },600)
+          changeSprite('right')
           break
         case 37:
           moveDirection = -1
-          clearInterval(pacmanAnimate)
-          spriteAnimate(0)
-          pacmanAnimate = setInterval(()=>{
-            spriteAnimate(0)
-          },600)
+          changeSprite('left')
           break
         default:
           return
@@ -348,36 +334,32 @@ function init() {
   }
 
 
+  
   // ------------------------------------------- PACMAN EATS NORMAL FRUIT -------------------------------------- 
 
   function eatFruit(){
-    if (playing){
-      if (cells[pacman.positionDivNo].classList.contains('fruit')){
-        scorePoints(100, pacman.positionDivNo)
-        cells[pacman.positionDivNo].classList.remove('fruit')
-        coinAudio.currentTime = 0
-        coinAudio.play()
-      }
+    
+    if (cells[pacman.positionDivNo].classList.contains('fruit')){
+      scorePoints(100, pacman.positionDivNo)
+      cells[pacman.positionDivNo].classList.remove('fruit')
+      audio(coinAudio)
     }
+    
   }
 
   // ------------------------------------------- PACMAN EATS BIG FRUIT -------------------------------------- 
 
   function eatBigFruit(){
-    if (playing){
-      if (cells[pacman.positionDivNo].classList.contains('bigFruit')){
-        scorePoints(500,pacman.positionDivNo)
-        cells[pacman.positionDivNo].classList.remove('bigFruit')
-        bigFruitEaten()
-      } else {
-        cells[pacman.positionDivNo].classList.remove('bigFruit')
-      }
-    }
+    if (cells[pacman.positionDivNo].classList.contains('bigFruit')){
+      scorePoints(500,pacman.positionDivNo)
+      cells[pacman.positionDivNo].classList.remove('bigFruit')
+      bigFruitEaten()
+    } 
+    
   }
 
   function bigFruitEaten() {
-    bigGemAudio.currentTime = 0
-    bigGemAudio.play()
+    audio(bigGemAudio)
     clearTimeout(scaredGhostCooldown)
     ghosts.forEach(ghost => {
       if (ghost.state === 'normal'){
@@ -638,8 +620,7 @@ function init() {
         if (pacman.positionDivNo === ghost.positionDivNo && ghost.state === 'scared'){
           scorePoints(500,ghost.positionDivNo)
           ghost.state = 'eaten'
-          eatAudio.currentTime = 0
-          eatAudio.play()
+          audio(eatAudio)
           // console.log(`${ghost.name} State: ${ghost.state}`)
         }
       })
@@ -702,8 +683,7 @@ function init() {
     
     cells[fireStart].classList.add('fire')
     cells[fireEnd].classList.add('fire')
-    fireAudio.currentTime = 0
-    fireAudio.play()
+    audio(fireAudio)
 
     const fireTrap = setInterval(() => {
       fireStart += fireDirection
@@ -742,8 +722,7 @@ function init() {
         gameOver('burning')
       }
       if (cells[pacman.positionDivNo].classList.contains('hole')){
-        fallAudio.currentTime = 0
-        fallAudio.play()
+        audio(fallAudio)
         gameOver('falling down a Hole')
       }
       ghosts.forEach(ghost => {
@@ -755,8 +734,7 @@ function init() {
         }
         if (cells[ghost.positionDivNo].classList.contains('hole') && ghost.state !== 'eaten'){
           scorePoints(500,ghost.positionDivNo)
-          fallAudio.currentTime = 0
-          fallAudio.play()
+          audio(fallAudio)
           ghost.state = 'eaten'
           cells[ghost.positionDivNo].classList.remove('scaredGhost')
           cells[ghost.positionDivNo].classList.remove(ghost.name)
@@ -769,8 +747,7 @@ function init() {
     holeTraps.forEach(holeCell => {
       cells[holeCell].classList.add('hole')
     })
-    openAudio.currentTime = 0
-    openAudio.play()
+    audio(openAudio)
     setTimeout(()=> {
       holeTraps.forEach(holeCell => {
         cells[holeCell].classList.remove('hole')
@@ -869,8 +846,7 @@ function init() {
     gameOverMenu.style.display = 'block'
     resetButton.addEventListener('click', reset)
     themeSongAudio.pause()
-    deathAudio.CurrentTime = 0
-    deathAudio.play()
+    audio(deathAudio)
   }
 
   function gameWin() {
@@ -883,8 +859,7 @@ function init() {
     gameWinMenu.style.display = 'block'
     resetButtonWin.addEventListener('click', reset)
     themeSongAudio.pause()
-    cheerAudio.CurrentTime = 0
-    cheerAudio.play()
+    audio(cheerAudio)
   }
 
   function reset(){
@@ -935,16 +910,28 @@ function init() {
   
 
   let spritePosition = 1
+  const spriteChangeSpeed = 600
+  let pacmanAnimate = setInterval(()=>{
+    spriteAnimate('right')
+  },spriteChangeSpeed)
+
+  function changeSprite(direction){
+    clearInterval(pacmanAnimate)
+    spriteAnimate(direction)
+    pacmanAnimate = setInterval(()=>{
+      spriteAnimate(direction)
+    },spriteChangeSpeed)
+  }
 
   function spriteAnimate(direction){
-    const scale = direction === 0 ? 'transform: scale(-1,1)' : 'transform: scale(1)' 
-    if (direction === 0 || direction === 1){
+    const scale = direction === 'left' ? 'transform: scale(-1,1)' : 'transform: scale(1)' 
+    if (direction === 'left' || direction === 'right'){
       spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/sprite${spritePosition}.png"); background-size: contain; ${scale}}`
     }
-    if (direction === 2) {
+    if (direction === 'up') {
       spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/spriteUp${spritePosition}.png"); background-size: contain;}`
     }
-    if (direction === -1) {
+    if (direction === 'down') {
       spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/spriteDown${spritePosition}.png"); background-size: contain;}`
     }
     // console.log(`sprite ${spritePosition} is used and ${direction} direction`)
@@ -957,11 +944,17 @@ function init() {
     
   }
 
-  let pacmanAnimate = setInterval(()=>{
-    spriteAnimate(1)
-  },pacmanSpeed)
+ 
 
  
+
+  // ------------------------------------------- SPRITE ANIMATION INDIE  -------------------------------------- 
+
+  function audio(sound){
+    sound.currentTime = 0
+    sound.play()
+  }
+
 }
  
 
