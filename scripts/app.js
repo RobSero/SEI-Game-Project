@@ -19,6 +19,7 @@ function init() {
   let chase = true
   let toggleChaseMode //Assigned an interval to swap between modes
   let chaseOrScattering
+  let eatenCheck
   const ghostHome = 170 
   let pacmanMoveInterval
   const pacmanSpeed = 150
@@ -65,8 +66,6 @@ function init() {
 
 
   function startGame() {
-    
-
     if (!playing){
       
       //build board
@@ -74,10 +73,8 @@ function init() {
       
       buildBoard()
       //begin pacman movement
-      pacmanMoveInterval = setInterval(movePacMan, pacmanSpeed)
-      setInterval(eatFruit, 130)
-      setInterval(CheckForBigFruitEaten, 130)
-      setInterval(checkForWin, 130)
+      startPacmanLogic()
+      startGhostLogic()
       //begin ghost movement
       // greenGhostSpeed = setInterval(()=> {
       //   moveGhost(greenGhost)
@@ -91,21 +88,36 @@ function init() {
       // yellowGhostSpeed = setInterval(()=> {
       //   moveGhost(pinkGhost)
       // }, 300)
-      
-      ghosts.forEach(ghost => {
-        ghost.speed = setInterval(()=> {
-          moveGhost(ghost)
-        },300)
-      })
-
     }
-    //toggle between chase and scatter modes
+  }
+
+  function startPacmanLogic() {
+    setInterval(eatFruit, 130)
+    setInterval(eatBigFruit, 130)
+    setInterval(checkForWin, 130)
+    setInterval(checkForLose, 50)
+    pacmanMoveInterval = setInterval(movePacMan, pacmanSpeed)
+  }
+
+
+  function startGhostLogic() {
+    ghosts.forEach(ghost => {
+      ghost.speed = setInterval(()=> {
+        moveGhost(ghost)
+      },300)
+    })
     toggleChase(chase)
     toggleChaseMode = setInterval(() => {
       toggleChase(chase)
     }, 5000)
-    //setInterval(checkForLose, 150)
+    
+    clearInterval(eatenCheck)
+    eatenCheck = setInterval(checkIfEaten,40)
+
   }
+  //toggle between chase and scatter modes
+    
+
 
   // -------------------------------------------------------BUILD CHARACTER OBJECTS  -------------------------------------- //
 
@@ -351,12 +363,11 @@ function init() {
 
   // ------------------------------------------- PACMAN EATS BIG FRUIT -------------------------------------- 
 
-  function CheckForBigFruitEaten(){
+  function eatBigFruit(){
     if (playing){
       if (cells[pacman.positionDivNo].classList.contains('bigFruit')){
         scorePoints(500,pacman.positionDivNo)
         cells[pacman.positionDivNo].classList.remove('bigFruit')
-        scoreDisplay.innerHTML = score
         bigFruitEaten()
       } else {
         cells[pacman.positionDivNo].classList.remove('bigFruit')
@@ -404,6 +415,12 @@ function init() {
 
 
   // ------------------------------------------- MOVE GHOST  -------------------------------------- 
+  function homeTimer(ghost){
+    setTimeout(()=> {
+      ghost.state = 'normal'
+      // console.log(`${ghost.name} back to normal wooo`)
+    }, 4000)
+  }
 
   function moveGhost(ghost){
     if (playing){
@@ -581,6 +598,7 @@ function init() {
           ghost.target = ghost.chaseTarget
         }
       })
+
     // console.log(greenGhost.target)
     }
   }
@@ -622,21 +640,14 @@ function init() {
           ghost.state = 'eaten'
           eatAudio.currentTime = 0
           eatAudio.play()
-          console.log(`${ghost.name} State: ${ghost.state}`)
+          // console.log(`${ghost.name} State: ${ghost.state}`)
         }
       })
     }
   }
 
-  const eatenCheck = setInterval(checkIfEaten,10)
 
-  function homeTimer(ghost){
-    setTimeout(()=> {
-      ghost.state = 'normal'
-      console.log(`${ghost.name} back to normal wooo`)
-      
-    }, 4000)
-  }
+  
 
   // ------------------------------------------- WIN / LOSE CONDITION -------------------------------------- 
 
@@ -660,11 +671,6 @@ function init() {
       })
     }
   }
-
-  setInterval(checkForLose, 50)
-  setInterval(checkForWin,50)
-
-
 
 
   // ------------------------------------------- TRAPS -------------------------------------- 
