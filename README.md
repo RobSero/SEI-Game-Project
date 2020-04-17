@@ -84,7 +84,7 @@ Stage 5 - Scaling and Refactoring
 
 Each element worked independently and then overlaying them they all worked together in the test environment so now it was the case to increase the size of the map to the actual size I wanted and design an interesting layout.
 
-![Getting Started](./assets/readMe_20x20.png)
+![Getting Started](./assets/readME_20x20.png)
 
 The layout I designed myself to give a bit of a mix of long narrow channels and open areas to navigate to make a bit more dynamic gameplay as I thought the classic pacman map is a bit bland. 
 
