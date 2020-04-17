@@ -24,20 +24,20 @@ Once these were all working as intended, it was a matter of overlaying the diffe
 
 Stage 2 - Grid Walls:
 
-The cells in the grid were all in the cells array but the wall cells would also be contained in the array wallCells. The wallCells array was used to add css styling to these cells (via adding classes to them) and also would be used as a check whether pacman or the ghosts could move into them. At this stage, the array was hard coded with the div numbers to shape the wall positions on the grid.
+The cells array would contain the id of all grid elements but the wall cells would also be contained in the array wallCells. The wallCells array was used to add css styling to these (via adding classes to them) and also would be used as a check whether pacman or the ghosts could move into them. At this stage, the array was hard coded with the div ids to shape the wall positions on the grid.
 
 
 Stage 3 - Movement:
 
-Pacman and the ghosts are their own separate objects which contain properties to enable them to move around the map.
-PositionDivNo (the current Div index in the cells array)
-Move (the value to be added to the PositionDivNo which will put it in its next position).
-Every 200ms, the setInterval functions will do: PositionDivNo + Move,  and then the new div number would be added with the pacman/ghost class so it looks like it is moving.
+Pacman and the ghosts are their own separate objects which contain properties to enable them to move around the map and change their behaviour. The main properties include:
+ - PositionDivNo (the current Div index in the cells array)
+ - Move (the value to be added to the PositionDivNo which will put the character into its next cell position).
+ - Every 200ms, the setInterval functions will do: PositionDivNo + Move,  and then the new div number would be added with the pacman/ghost class so it looks like it is moving.
 
 
 Pacman Movement
 
-Pacman movement is all dictated by user input on the arrow keys. The way the grid is laid out, the up and down key would set the value of the move property to +20/-20 which would move pacman to the div above or below the current one it is in. If the div pacman would move to is contained within the wallCells array, it would not allow this and pacman would continue to move in its current direction.
+Pacman movement is all dictated by user input on the arrow keys. The way the grid is laid out, the up and down key would set the value of the move property to +20/-20 which would move pacman to the div above or below the current one it is in. If the div pacman would move to is contained within the wallCells array, it would not allow this and pacman would continue to move in his current direction.
 
 Ghost Logic
 
@@ -48,11 +48,11 @@ The states:
 Scatter State = The ghosts each have a seperate corner of the map they go to as they each have a target cell there. (this alternates every 10s with chase state)
  Chase State = The ghosts target pacmans position and check his position every time they move.  (this alternates every 10s with scatter state)
 Scared State = The ghost’s target changes randomly each second, causing them to move unpredictably.
-Eaten State = Pacman has eaten the ghost and it needs to retreat to its ghostHome in the middle
+Eaten State = Pacman has eaten the ghost and it needs to retreat to its ghostHome in the middle before it can respawn.
 
 Chase State
 When in chase state, the ghosts try to catch pacman and each have their own logic to do this. The green ghost will constantly check where pacman is and target that cell so it is always chasing on pacman’s tail.
-The red ghost’s chase target is the green ghost’s position minus 5 squares so it slightly lags behind the green ghost so to can catch pacman if he tries to turn around and dodge the red ghost.
+The red ghost’s chase target is the green ghost’s position minus 5 squares so it slightly lags behind the green ghost so to can catch pacman if he tries to turn around and dodge the green ghost.
 Yellow Ghost - This attempts to predict the next move of pacman and uses this as the target to create a trapping effect where pacman is stuck between two ghosts.
 Pink Ghost - This ghost lags behind pacman's location slightly to create a dense population of ghosts behind pacman to make it difficult to navigate backwards.
 
@@ -61,18 +61,19 @@ Pink Ghost - This ghost lags behind pacman's location slightly to create a dense
 
 Calculate The Best Route
 
-After every move, the ghosts calculate the next cell to move to through the use of pythagorus theory. Firstly it is required to calculate the x and y value difference between the ghost’s current position and their target cell. This was done by using the offsetX and offsetY property which finds these values based on the window position. Once these values are known, it is known that the direct distance to the target can be found by doing a2 + b2 = c2: 
+After every move, the ghosts calculate the next cell to move to through the use of pythagorus theory.The ghosts calculate the direct distance from every cell around it to the target and the one with the shortest direct distance would be the next cell to move to. The logic will block the previous cell position and any wall cells from being moved to.
+
+Firstly it is required to calculate the x and y value difference between the ghost’s surrounding cells and their target cell. This was done by using the offsetX and offsetY property which finds these values based on the window position. Once these values are known, it is known that the direct distance to the target can be found by doing a2 + b2 = c2.
 
 ![Getting Started](./assets/readMe_pythagorus1.png)
 ![Getting Started](./assets/readME_pythagorus2.jpg)
 
-
-The ghosts calculate this distance from every cell around it and the one with the shortest direct distance would be the next cell to move to. The logic will block the previous cell position and any wall cells from being moved to.
+The cell with the shortest distance which surrounds the ghost is where the ghost moves to. This cycle is then repeated over and over again after each move. This system does have it's flaws as the cell with the closest direct distance to the target does not necessarily mean that route is the least overall moves to get to that target cell.
 
 
 Scared and Eaten State
 
-These states were the hardest to implement because the other states can all be done on timers and all synchronized well together however these two states were caused by user interaction. The logic needed to break them out of the timers and do their own behaviours separately but also be able to return them back into the timers so they sync back up with the other ghost’s states. This was done through conditional statements which consistently checked the current state of each ghost and setTimeouts for them to be pulled back into the normal flow of the states. It was also important to implement many checks to evaluate the state of a ghost and change the class of the cell to show the correct visual icon at that cell.
+These states were the hardest to implement because the other states can all be done on timers and all synchronized well together however these two states were caused by user interaction. The logic needed to break them out of the timers and do their own behaviours separately but also be able to return them back into the timers so they sync back up with the other ghost’s states. This was done through conditional statements which consistently checked the current state of each ghost and setTimeouts for them to be pulled back into the normal flow of the scatter/chase states. It was also important to implement many checks to evaluate the state of a ghost and change the class of the cell to show the correct visual icon at that cell (ie. scared ghosts need to use a scaredGhost class for css to style it properly)
 
 Stage 4 - Win/Lose Conditions
 
@@ -83,11 +84,11 @@ Scoring is also added at this point which basically would check if pacman divPos
 
 Stage 5 - Scaling and Refactoring
 
-Each element worked independently and then overlaying them they all worked together in the test environment so now it was the case to increase the size of the map to the actual size I wanted and design an interesting layout.
+Each element worked well independently and then overlaying them, they all worked together in the test environment so now it was the case to increase the size of the map to the actual size I wanted and design an interesting layout.
 
 ![Getting Started](./assets/readME_20x20.png)
 
-The layout I designed myself to give a bit of a mix of long narrow channels and open areas to navigate to make a bit more dynamic gameplay as I thought the classic pacman map is a bit bland. 
+The layout I designed myself to give a bit of a mix of long narrow channels and open areas to navigate around to make a bit more dynamic gameplay as I thought the classic pacman map is a bit bland. 
 
 Scaling was a bit of a problem as it identified areas where I had hardcoded some values and this messed up most of the logic as the grid was no longer 10x10 meaning the div positions were all a bit different. An example would be that to move up in the test rig, pacman’s div number would need to be -10 to go up. With a 20x20 grid, it now needs to be -20 to go up one square.
 
@@ -105,8 +106,16 @@ Once the code was refactored and everything was running intentionally with the l
 
 Stage 7 - Adding Traps
 
-I wanted to add some additional features to spice up the game as I find pacman a bit bland on it's own (very good for the year it was released but games have become a lot more complex nowadays and I wanted to push for a bit more complexity in the gameplay). Using a combination of intervals and timers, I was able to place pressure plates aroud that map which activate either fire or holes to appear on the map. These interact with pacman and the ghosts which can either kill you or earn you bonus points if you are able to trap the ghosts. Layering different classes onto different cells at different intervals and then checking if them cells had the player or ghost in them was used to build the game logic.
+I wanted to add some additional features to spice up the game as I find pacman a bit vasuc on it's own (very good for the year it was released but games have become a lot more complex nowadays and I wanted to push for a bit more complexity in the gameplay). Using a combination of intervals and timers, I was able to use pressure plates around the map which activate either fire or holes to appear. These interact with pacman and the ghosts which can either kill you or earn you bonus points if you are able to trap the ghosts. Layering different classes onto different cells at different intervals and then checking if them cells had the player or ghost in them was used to build the game logic.
 
 Stage 8 - Polishing and Audio
 
-Finally just a bit of polishing and adding in audio to make the game a bit more immersive was important. I wanted to capture the feeling of being indiana jones running thorugh a boobie trapped template and it could not be complete without the iconic theme tune! Audio on timers and triggered at different events adds a bit fo depth to the game
+Finally just a bit of polishing and adding in audio to make the game a bit more immersive was important. I wanted to capture the feeling of being indiana jones running thorugh a booby trapped template and it could not be complete without the iconic theme tune! Audio on timers and triggered at different events adds a bit of depth to the game
+
+
+Self Reflection:
+
+Overall I had a lot of fun building the game, it certainly had it's challenges as there are quite a lot of things going on particularly when layering additional systems on top of each other. It was important to avoid using any frameworks so I could build a stronger foundation of the core HTML, CSS and JS skills. 
+
+It was a great learning opportunity to understand the importance of scalable code and being respectful of the risks of adding new systems to a project. I feel as though there is certainly more work that can be done on the project, largely focusing on minimizing hardcoded areas so that the difficulty or the map can be changed at ease without breaking anything. 
+
