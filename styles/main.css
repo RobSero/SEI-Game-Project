@@ -5,7 +5,7 @@
 body {
   height: 100vh;
   margin: 0;
-  background-image: url('/assets/jungle2.png');
+  background-image: url('./assets/jungle2.png');
    background-size: cover;
    font-family: 'Gotu', sans-serif;
    font-weight: 400;
@@ -19,7 +19,7 @@ body {
 }
 
 .main-menu .parchment {
-  background-image: url('/assets/parchment.png');
+  background-image: url('./assets/parchment.png');
   background-size: contain;
   height: 400px;
   width: 800px;
@@ -101,7 +101,7 @@ body {
   justify-content: center;
   height: 600px;
   width: 600px;
-  background-image: url('/assets/backdrop.jpg');
+  background-image: url('./assets/backdrop.jpg');
    background-size: contain;
 }
 
@@ -127,7 +127,7 @@ body {
 }
 
 .walls {
-  background-image: url('/assets/testTile.png'); 
+  background-image: url('../assets/testTile.png'); 
   background-size: contain;
 }
 
@@ -142,7 +142,7 @@ body {
 }
 
 .bigFruit {
-  background-image: url('/assets/ruby.png'); 
+  background-image: url('./assets/ruby.png'); 
   background-size: contain;
 }
 
@@ -153,32 +153,32 @@ body {
 }
 
 .greenGhost {
-  background-image: url('/assets/greenSnake.png');
+  background-image: url('./assets/greenSnake.png');
    background-size: contain;
 }
 
 .redGhost {
-  background-image: url('/assets/redSnake.png');
+  background-image: url('./assets/redSnake.png');
    background-size: contain;
 }
 
 .yellowGhost {
-  background-image: url('/assets/brownSnake.png');
+  background-image: url('./assets/brownSnake.png');
    background-size: contain;
 }
 
 .pinkGhost {
-  background-image: url('/assets/pinkSnake.png');
+  background-image: url('./assets/pinkSnake.png');
    background-size: contain;
 }
 
 .scaredGhost {
-  background-image: url('/assets/scaredSnake.png');
+  background-image: url('./assets/scaredSnake.png');
    background-size: contain;
 }
 
 .eatenGhost {
-  background-image: url('/assets/death.png');
+  background-image: url('./assets/death.png');
   background-size: contain;
 }
 
@@ -188,22 +188,22 @@ body {
 }
 
 .fire {
-  background-image: url('/assets/fire.png');
+  background-image: url('./assets/fire.png');
   background-size: contain;
 }
 
 .trapDoor {
-  background-image: url('/assets/secretDoor.png');
+  background-image: url('./assets/secretDoor.png');
   background-size: contain;
 }
 
 .hole {
-  background-image: url('/assets/hole.png');
+  background-image: url('./assets/hole.png');
   background-size: contain;
 }
 
 .gameOver {
-  background-image: url('/assets/parchment.png');
+  background-image: url('./assets/parchment.png');
   background-size: contain;
   height: 400px;
   width: 800px;
@@ -246,7 +246,7 @@ body {
 }
 
 .gameWon {
-  background-image: url('/assets/parchment.png');
+  background-image: url('./assets/parchment.png');
   background-size: contain;
   height: 400px;
   width: 800px;
