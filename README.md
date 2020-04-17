@@ -63,7 +63,7 @@ Calculate The Best Route
 After every move, the ghosts calculate the next cell to move to through the use of pythagorus theory. Firstly it is required to calculate the x and y value difference between the ghost’s current position and their target cell. This was done by using the offsetX and offsetY property which finds these values based on the window position. Once these values are known, it is known that the direct distance to the target can be found by doing a2 + b2 = c2: 
 
 ![Getting Started](./assets/readMe_pythagorus1.png)
-![Getting Started](./assets/readMe_pythagorus2.jpg)
+![Getting Started](./assets/readME_pythagorus2.jpg)
 
 
 The ghosts calculate this distance from every cell around it and the one with the shortest direct distance would be the next cell to move to. The logic will block the previous cell position and any wall cells from being moved to.
