@@ -928,13 +928,13 @@ function init() {
     const scale = direction === 'left' ? 'transform: scale(-1,1)' : 'transform: scale(1)'  // if direction is left or right, this changes the scale. scale -1 will mirror the image to run left
 
     if (direction === 'left' || direction === 'right'){
-      spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/sprite${spriteNumber}.png"); background-size: contain; ${scale}}` //changes the stylesheet so the pacman class shows the left/right
+      spriteStyleSheet.innerHTML = `.pacman { background-image: url("./assets/sprite${spriteNumber}.png"); background-size: contain; ${scale}}` //changes the stylesheet so the pacman class shows the left/right
     }
     if (direction === 'up') {
-      spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/spriteUp${spriteNumber}.png"); background-size: contain;}` // up moving sprite images, cycle thorugh spriteUp 1-3 images
+      spriteStyleSheet.innerHTML = `.pacman { background-image: url("./assets/spriteUp${spriteNumber}.png"); background-size: contain;}` // up moving sprite images, cycle thorugh spriteUp 1-3 images
     }
     if (direction === 'down') {
-      spriteStyleSheet.innerHTML = `.pacman { background-image: url("../assets/spriteDown${spriteNumber}.png"); background-size: contain;}` // down moving sprite images, cycle thorugh spriteDown 1-3 images
+      spriteStyleSheet.innerHTML = `.pacman { background-image: url("./assets/spriteDown${spriteNumber}.png"); background-size: contain;}` // down moving sprite images, cycle thorugh spriteDown 1-3 images
     }
     // console.log(`sprite ${spritePosition} is used and ${direction} direction`)
     document.head.appendChild(spriteStyleSheet) // append the stylesheet to the html and this removes the previous sprite stylesheet
