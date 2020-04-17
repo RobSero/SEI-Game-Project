@@ -17,7 +17,7 @@ The test rig was essentially a sandbox and I was able to test the ghost logic, p
 Once these were all working as intended, it was a matter of overlaying the different systems and coordinating how they interact with each other.
 
 
-// -----------------  TEST RIG IMAGE -------------- //
+![Getting Started](./assets/readMe_initialmap.png)
 
 
 
@@ -25,8 +25,6 @@ Stage 2 - Grid Walls:
 
 The cells in the grid were all in the cells array but the wall cells would also be contained in the array wallCells. The wallCells array was used to add css styling to these cells (via adding classes to them) and also would be used as a check whether pacman or the ghosts could move into them. At this stage, the array was hard coded with the div numbers to shape the wall positions on the grid.
 
-
-// -----------------  CELLS ARRAYS -------------- //
 
 Stage 3 - Movement:
 
@@ -36,8 +34,8 @@ Move (the value to be added to the PositionDivNo which will put it in its next p
 Every 200ms, the setInterval functions will do: PositionDivNo + Move,  and then the new div number would be added with the pacman/ghost class so it looks like it is moving.
 
 
-
 Pacman Movement
+
 Pacman movement is all dictated by user input on the arrow keys. The way the grid is laid out, the up and down key would set the value of the move property to +20/-20 which would move pacman to the div above or below the current one it is in. If the div pacman would move to is contained within the wallCells array, it would not allow this and pacman would continue to move in its current direction.
 
 Ghost Logic
@@ -57,19 +55,18 @@ The red ghost’s chase target is the green ghost’s position minus 5 squares s
 Yellow Ghost - TBC
 Pink Ghost - TBC
 
-// -----------------  CHASE TARGETTING IMAGE -------------- //
+![Getting Started](./assets/readMe_chaseState.png)
 
 
 Calculate The Best Route
 
 After every move, the ghosts calculate the next cell to move to through the use of pythagorus theory. Firstly it is required to calculate the x and y value difference between the ghost’s current position and their target cell. This was done by using the offsetX and offsetY property which finds these values based on the window position. Once these values are known, it is known that the direct distance to the target can be found by doing a2 + b2 = c2: 
 
-// -----------------  PYTHAGORAS LOGIC -------------- //
+![Getting Started](./assets/readMe_pythagorus1.png)
+![Getting Started](./assets/readMe_pythagorus2.jpg)
 
 
 The ghosts calculate this distance from every cell around it and the one with the shortest direct distance would be the next cell to move to. The logic will block the previous cell position and any wall cells from being moved to.
-
-// ----------------- IMAGE OF ALL THE SQUARES AROUND THE GHOST -------------- //
 
 
 Scared and Eaten State
@@ -87,12 +84,13 @@ Stage 5 - Scaling and Refactoring
 
 Each element worked independently and then overlaying them they all worked together in the test environment so now it was the case to increase the size of the map to the actual size I wanted and design an interesting layout.
 
-// ----------------- 20x20 grid image -------------- //
+![Getting Started](./assets/readMe_20x20.png)
+
 The layout I designed myself to give a bit of a mix of long narrow channels and open areas to navigate to make a bit more dynamic gameplay as I thought the classic pacman map is a bit bland. 
 
 Scaling was a bit of a problem as it identified areas where I had hardcoded some values and this messed up most of the logic as the grid was no longer 10x10 meaning the div positions were all a bit different. An example would be that to move up in the test rig, pacman’s div number would need to be -10 to go up. With a 20x20 grid, it now needs to be -20 to go up one square.
 
-// ----------------- IMAGE OF GRID 10X10 & 20X20 -------------- //
+![Getting Started](./assets/readMe_refactorandmoreghosts.png)
 
 I was finding I needed to change a lot so it was best to re-write and refactor a lot of the code to ensure scalability can be achieved. This included things such as setting global variables which can be altered on the fly to allow for the map to scale in size or change the layout whilst every element acted as intended. 
 This was also a good opportunity to review the naming conventions and update them so they improve readability as some of them were a bit vague.
@@ -102,6 +100,7 @@ Stage 6 - Finishing and styling
 
 Once the code was refactored and everything was running intentionally with the larger map, I finished up with some styling to add a bit of character to the game. The original pacman is quite a basic layout and sprites used so I wanted to add a bit flair to this!
 
+![Getting Started](./assets/readMe_styling.png)
 
 Stage 7 - Adding Traps
 
