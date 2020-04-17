@@ -1,18 +1,19 @@
 # SEI-Game-Project
-First Project at GA
 
+![Getting Started](./assets/indianaLogo.png)
+
+Use the W,A,S,D keys to navigate around the map.
 
 Note - The pacman game was styled at the end into an Indiana Jones’ theme. The below refers to ‘pacman and ghosts’ for ease of understanding.
 
 Project Description:
-Recreating PacMan using vanilla HTML, CSS and Javascript only.
-Design and logic to be created from scratch with win/lose conditions and score tracking capabilities.
+Recreating PacMan using  HTML, CSS and vanilla Javascript only. Design and logic to be created from scratch with win/lose conditions and score tracking capabilities. I have re-skinned the game into an indiana jones theme and added a few extra twists and traps to the map for  more immersive temple runner experience.
 
 
 Stage 1 - Pseudocode and Test Rig:
 
-The two priorities at the start of the project was to write out all start/win/lose conditions and study the ghost behaviour
-I broke down the game into its separate elements and in order to test each one in a controlled environment independently of one another, I built a small scale test environment.
+The two priorities at the start of the project was to write out all start/win/lose conditions and study the ghost behaviour.
+I broke down the game into its separate elements and in order to test each one in a controlled setting independently of one another, I built a small scale test environment.
 The test rig was essentially a sandbox and I was able to test the ghost logic, pacman’s movement and the conditions. This was a 10x10 grid with each cell having a seperate id.
 Once these were all working as intended, it was a matter of overlaying the different systems and coordinating how they interact with each other.
 
@@ -52,8 +53,8 @@ Eaten State = Pacman has eaten the ghost and it needs to retreat to its ghostHom
 Chase State
 When in chase state, the ghosts try to catch pacman and each have their own logic to do this. The green ghost will constantly check where pacman is and target that cell so it is always chasing on pacman’s tail.
 The red ghost’s chase target is the green ghost’s position minus 5 squares so it slightly lags behind the green ghost so to can catch pacman if he tries to turn around and dodge the red ghost.
-Yellow Ghost - TBC
-Pink Ghost - TBC
+Yellow Ghost - This attempts to predict the next move of pacman and uses this as the target to create a trapping effect where pacman is stuck between two ghosts.
+Pink Ghost - This ghost lags behind pacman's location slightly to create a dense population of ghosts behind pacman to make it difficult to navigate backwards.
 
 ![Getting Started](./assets/readMe_chaseState.png)
 
