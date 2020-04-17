@@ -90,7 +90,7 @@ The layout I designed myself to give a bit of a mix of long narrow channels and 
 
 Scaling was a bit of a problem as it identified areas where I had hardcoded some values and this messed up most of the logic as the grid was no longer 10x10 meaning the div positions were all a bit different. An example would be that to move up in the test rig, pacman’s div number would need to be -10 to go up. With a 20x20 grid, it now needs to be -20 to go up one square.
 
-![Getting Started](./assets/readMe_refactorandmoreghosts.png)
+![Getting Started](./assets/readME_moreGhosts.png)
 
 I was finding I needed to change a lot so it was best to re-write and refactor a lot of the code to ensure scalability can be achieved. This included things such as setting global variables which can be altered on the fly to allow for the map to scale in size or change the layout whilst every element acted as intended. 
 This was also a good opportunity to review the naming conventions and update them so they improve readability as some of them were a bit vague.
