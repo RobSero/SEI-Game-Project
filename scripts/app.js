@@ -96,7 +96,7 @@ function init() {
       controlWrapper.style.display = 'flex'
       mainMenu.style.display = 'none'
       //starts listening for keypress
-      window.addEventListener('keypress', validatePress)
+      window.addEventListener('keydown', validatePress)
     }
   })
 
@@ -329,25 +329,25 @@ function init() {
   // ------------------------------------------- VALIDATE KEY PRESS AND UPDATE PACMAN MOVE -------------------------------------- 
 
   function validatePress(event){
-    // console.log(event.keyCode)
+    console.log(event.keyCode)
     event.preventDefault()
     //check if key is either W,a,s OR D
     if (playing){
       let moveDirection
       switch (event.keyCode){
-        case 119:
+        case 38:
           moveDirection = -width
           changeSprite('up')
           break
-        case 115:
+        case 40:
           moveDirection = width
           changeSprite('down')
           break
-        case 100:
+        case 39:
           moveDirection = 1 
           changeSprite('right')
           break
-        case 97:
+        case 37:
           moveDirection = -1
           changeSprite('left')
           break
