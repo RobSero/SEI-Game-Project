@@ -911,7 +911,7 @@ function init() {
 
   //there are 3 positions for each sprite, 3 images for running up, 3 images for running down, 3 images for running right (left is the same as right but to a scale of -1 to mirror it)
   let spriteNumber = 1 //this value is looped through 1-3 constantly to keep changing the sprite image on a quick interval.
-  const spriteChangeSpeed = 600 // speed at which the sprite is cycled through the different images
+  const spriteChangeSpeed = 500 // speed at which the sprite is cycled through the different images
   let pacmanAnimate = setInterval(()=>{ //initial sprite interval is set
     spriteAnimate('right')
   },spriteChangeSpeed)
