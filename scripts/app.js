@@ -158,8 +158,8 @@ function init() {
     name: 'greenGhost',
     prevDivNo: 0,
     positionDivNo: 170,
-    move: 0,
-    target: 19,
+    move: 0, //this decides the direction the ghost moves at each interval (left = -1, right = +1, up = -20, down = +20)
+    target: 19, // target refers to the div number which the ghost is trying to reach. Thsi is used during pythagorus
     initialTarget: 19,
     chaseTarget: pacman.positionDivNo,  //this ghost targets exactly pacman's cell during chase mode
     speed: '', // this will be assigned an interval to move
@@ -256,8 +256,8 @@ function init() {
 
   function createCells(){
     for (let i = 0; i < cellCount; i++){
-      const cell = document.createElement('div')
-      cell.setAttribute('id', i)
+      const cell = document.createElement('div') //loops over 400 times and creates a div 
+      cell.setAttribute('id', i) // assign each div with an id which is the div's position number
       // cell.textContent = i
       grid.appendChild(cell)
       cells.push(cell)
@@ -267,20 +267,20 @@ function init() {
 
   function addCellWalls(){
     wallCells.forEach(item => {
-      cells[item].classList.add('walls')
+      cells[item].classList.add('walls') //the wall class changes the css of the div and also is used for checking movement
     })
   }
 
   function addFruitToGrid(){
     fruitCells.forEach(fruit => {
-      cells[fruit].classList.add('fruit')
+      cells[fruit].classList.add('fruit') // the fruit class adds css fruit to the square and checks when pacman eats it
     })
-    cells[startingPostion].classList.remove('fruit')
+    cells[startingPostion].classList.remove('fruit') // remove fruit from pacmans starting position
   }
 
   function addBigFruitToGrid() {
     bigFruitCells.forEach(bigFruit => {
-      cells[bigFruit].classList.add('bigFruit')
+      cells[bigFruit].classList.add('bigFruit') // the bigfruit class adds css bigfruit to the square and checks when pacman eats it
     })
   }
 
@@ -331,7 +331,7 @@ function init() {
   function validatePress(event){
     console.log(event.keyCode)
     event.preventDefault()
-    //check if key is either W,a,s OR D
+    //check if key is either up,down,left or right
     if (playing){
       let moveDirection
       switch (event.keyCode){
@@ -371,10 +371,10 @@ function init() {
 
   function eatFruit(){
     
-    if (cells[pacman.positionDivNo].classList.contains('fruit')){
+    if (cells[pacman.positionDivNo].classList.contains('fruit')){ // if pacman's div position contains fruit class, remove fruit and give points
       scorePoints(100, pacman.positionDivNo)
       cells[pacman.positionDivNo].classList.remove('fruit')
-      audio(coinAudio)
+      audio(coinAudio) // play fruit eating sound
     }
     
   }
